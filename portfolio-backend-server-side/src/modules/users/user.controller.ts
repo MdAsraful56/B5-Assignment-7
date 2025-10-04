@@ -6,7 +6,7 @@ const CreateUser = async (req: Request, res: Response) => {
         const user = await UserService.createUser(req.body);
         res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create user' });
+        res.status(500).json(error);
     }
 };
 
@@ -15,7 +15,7 @@ const GetAllUsers = async (req: Request, res: Response) => {
         const users = await UserService.getAllUsers();
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve users' });
+        res.status(500).json(error);
     }
 };
 

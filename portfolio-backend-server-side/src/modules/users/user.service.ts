@@ -1,9 +1,18 @@
 import { Prisma, User } from '@prisma/client';
+import bcrypt from 'bcrypt';
 import { prisma } from '../../config/db';
 
 const createUser = async (payload: Prisma.UserCreateInput): Promise<User> => {
+    let hashedPassword: string | undefined = undefined;
+    if (payload.password) {
+        hashedPassword = await bcrypt.hash(
+            payload.password,
+            Number(process.env.SALTROUNDS)
+        );
+    }
+
     const createUser = await prisma.user.create({
-        data: payload,
+        data: { ...payload, password: hashedPassword },
     });
     return createUser;
 };
