@@ -38,8 +38,8 @@ console.log('footer main');
 
 const Footer = () => {
     return (
-        <div className='min-h-screen flex flex-col'>
-            <div className='grow bg-muted' />
+        <div className='min-h-screen flex flex-col mt-96'>
+            {/* <div className='grow bg-muted' /> */}
             <footer className='border-t'>
                 <div className='max-w-(--breakpoint-xl) mx-auto'>
                     <div className='py-12 flex flex-col justify-start items-center'>
