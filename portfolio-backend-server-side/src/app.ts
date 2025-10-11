@@ -1,6 +1,7 @@
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
+import { contactRoute } from './modules/contact/contact.route';
 import { postRoute } from './modules/posts/post.route';
 import { userRouter } from './modules/users/user.route';
 
@@ -20,6 +21,7 @@ app.use(
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/post', postRoute);
+app.use('/api/v1/contact', contactRoute);
 
 // Default route for testing
 app.get('/', (_req, res) => {
