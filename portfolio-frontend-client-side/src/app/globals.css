@@ -119,3 +119,20 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* globals.css */
+.font-geist {
+    font-family: var(--font-geist-sans);
+}
+
+.font-inter {
+    font-family: var(--font-inter);
+}
+
+.font-geist-mono {
+    font-family: var(--font-geist-mono);
+}
+
+.font-schoolbell {
+    font-family: var(--font-schoolbell);
+}

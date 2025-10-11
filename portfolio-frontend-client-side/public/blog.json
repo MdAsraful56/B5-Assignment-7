@@ -1,0 +1,14 @@
+[
+    {
+        "title": "My First Blog Post",
+        "date": "2024-06-01",
+        "author": "Jane Doe",
+        "content": "This is the content of my first blog post."
+    },
+    {
+        "title": "Learning JSON",
+        "date": "2024-06-15",
+        "author": "John Smith",
+        "content": "JSON stands for JavaScript Object Notation. It is a lightweight data interchange format."
+    }
+]
