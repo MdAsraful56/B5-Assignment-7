@@ -17,7 +17,15 @@ const getAllContacts = async (): Promise<Contact[]> => {
     return contacts;
 };
 
+const deleteContact = async (id: number): Promise<Contact | null> => {
+    const contact = await prisma.contact.delete({
+        where: { id },
+    });
+    return contact;
+};
+
 export const ContactService = {
     createContactPost,
     getAllContacts,
+    deleteContact,
 };

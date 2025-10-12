@@ -28,7 +28,22 @@ const GetAllContacts = async (
     }
 };
 
+const DeleteContact = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id } = req.params;
+        await ContactService.deleteContact(Number(id));
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const ContactController = {
     CreateContactPost,
     GetAllContacts,
+    DeleteContact,
 };

@@ -1,12 +1,12 @@
 import express from 'express';
-import { UserController } from '../users/user.controller';
+import { PostController } from './post.controller';
 
 const route = express.Router();
 
-route.post('/create', UserController.CreateUser);
-route.get('/all', UserController.GetAllUsers);
-route.get('/:id', UserController.GetSingleUser);
-route.patch('/update/:id', UserController.UpdateUser);
-route.delete('/delete/:id', UserController.DeleteUser);
+route.post('/create', PostController.CreatePost);
+route.get('/all', PostController.GetAllPosts);
+route.get('/:id', PostController.GetSinglePost);
+route.patch('/update/:id', PostController.UpdatePost);
+route.delete('/delete/:id', PostController.DeletePost);
 
 export const postRoute = route;
