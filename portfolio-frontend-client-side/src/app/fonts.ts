@@ -1,4 +1,10 @@
-import { Geist, Geist_Mono, Inter, Schoolbell } from 'next/font/google';
+import {
+    Geist,
+    Geist_Mono,
+    Inter,
+    Raleway,
+    Schoolbell,
+} from 'next/font/google';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -21,4 +27,10 @@ const schoolbell = Schoolbell({
     variable: '--font-schoolbell',
 });
 
-export { geistMono, geistSans, inter, schoolbell };
+const raleway = Raleway({
+    subsets: ['latin'],
+    weight: '400',
+    variable: '--font-raleway',
+});
+
+export { geistMono, geistSans, inter, raleway, schoolbell };

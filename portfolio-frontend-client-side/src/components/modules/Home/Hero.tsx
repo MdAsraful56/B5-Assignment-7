@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import me from '../../../../public/assetes/me.png';
+import TextWrite from '../../shared/TextWrite';
 
 const Hero = () => {
     return (
@@ -14,6 +15,9 @@ const Hero = () => {
                         Hi, I am{' '}
                         <span className='font-schoolbell text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300'>
                             Asraful
+                        </span>
+                        <span className=''>
+                            <TextWrite />
                         </span>
                     </h1>
                     <p className='text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-xl mx-auto md:mx-0'>
