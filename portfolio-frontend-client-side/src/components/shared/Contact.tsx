@@ -1,8 +1,6 @@
 'use client';
 
-import Lottie from 'lottie-react';
 import React, { useState } from 'react';
-import contactAnimationData from '../../../public/assetes/Contact Us.json';
 
 const Contact = () => {
     // Local state for form data
@@ -34,10 +32,92 @@ const Contact = () => {
 
     return (
         <div className='min-h-screen flex flex-col lg:flex-row items-center justify-center  px-6 py-10 transition-colors duration-300'>
-            {/* Left side - Lottie Animation */}
+            {/* Left side - Lottie Animation
             <div className='flex justify-center items-center w-full lg:w-1/2 mb-8 lg:mb-0'>
                 <div className='max-w-xs sm:max-w-sm md:max-w-md w-full'>
                     <Lottie animationData={contactAnimationData} loop={true} />
+                </div>
+            </div> */}
+
+            <div className='bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-10 rounded-xl shadow-xl max-w-2xl mx-auto border border-gray-200 dark:border-gray-700'>
+                <h2 className='text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-8'>
+                    📞 Get in Touch
+                </h2>
+
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700 dark:text-gray-300'>
+                    <div className='flex items-start space-x-3'>
+                        <span className='text-indigo-600 text-2xl'>📍</span>
+                        <div>
+                            <p className='font-semibold'>Address</p>
+                            <p>Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+
+                    <div className='flex items-start space-x-3'>
+                        <span className='text-indigo-600 text-2xl'>📧</span>
+                        <div>
+                            <p className='font-semibold'>Email</p>
+                            <p>yourname@email.com</p>
+                        </div>
+                    </div>
+
+                    <div className='flex items-start space-x-3'>
+                        <span className='text-indigo-600 text-2xl'>📱</span>
+                        <div>
+                            <p className='font-semibold'>Phone</p>
+                            <p>+880 1XXX-XXXXXX</p>
+                        </div>
+                    </div>
+
+                    <div className='flex items-start space-x-3'>
+                        <span className='text-indigo-600 text-2xl'>🌐</span>
+                        <div>
+                            <p className='font-semibold'>Website</p>
+                            <p>www.yourportfolio.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='flex justify-center space-x-6 mt-8'>
+                    <a
+                        href='https://linkedin.com/in/yourprofile'
+                        target='_blank'
+                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
+                    >
+                        <svg
+                            className='w-6 h-6'
+                            fill='currentColor'
+                            viewBox='0 0 24 24'
+                        >
+                            ...
+                        </svg>
+                    </a>
+                    <a
+                        href='https://github.com/yourprofile'
+                        target='_blank'
+                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
+                    >
+                        <svg
+                            className='w-6 h-6'
+                            fill='currentColor'
+                            viewBox='0 0 24 24'
+                        >
+                            ...
+                        </svg>
+                    </a>
+                    <a
+                        href='https://twitter.com/yourprofile'
+                        target='_blank'
+                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
+                    >
+                        <svg
+                            className='w-6 h-6'
+                            fill='currentColor'
+                            viewBox='0 0 24 24'
+                        >
+                            ...
+                        </svg>
+                    </a>
                 </div>
             </div>
 
