@@ -10,11 +10,9 @@ export const metadata: Metadata = {
 };
 
 const AllBlogsPage = async () => {
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
-    //     cache: 'no-store',
-    // });
-
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post/all`, {
+        cache: 'no-store',
+    });
 
     const blogs = await res.json();
     console.log(blogs);

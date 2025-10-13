@@ -6,7 +6,7 @@ const TextWrite = () => {
     const text = ['a Developer', 'a Designer', 'a Creator'];
 
     return (
-        <div>
+        <div className='pl-10'>
             <Typewriter
                 words={text}
                 loop={false}

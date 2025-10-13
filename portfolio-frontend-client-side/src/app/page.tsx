@@ -1,15 +1,15 @@
-import Education from '../components/modules/Home/Education';
 import Hero from '../components/modules/Home/Hero';
-import Skill from '../components/modules/Home/Skill';
 import Contact from '../components/shared/Contact';
+import Project from '../components/shared/Project';
 
 const HomePage = () => {
     return (
         <div>
             <section>
                 <Hero />
-                <Education />
-                <Skill />
+                {/* <Education /> */}
+                {/* <Skill /> */}
+                <Project />
                 <Contact />
             </section>
         </div>

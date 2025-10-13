@@ -2,6 +2,7 @@ import {
     Geist,
     Geist_Mono,
     Inter,
+    JetBrains_Mono,
     Raleway,
     Schoolbell,
 } from 'next/font/google';
@@ -33,4 +34,10 @@ const raleway = Raleway({
     variable: '--font-raleway',
 });
 
-export { geistMono, geistSans, inter, raleway, schoolbell };
+const jetbrainsMono = JetBrains_Mono({
+    subsets: ['latin'],
+    weight: '400',
+    variable: '--font-jetbrains-mono',
+});
+
+export { geistMono, geistSans, inter, jetbrainsMono, raleway, schoolbell };

@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import me from '../../../../public/assetes/me.png';
 import TextWrite from '../../shared/TextWrite';
+import WhatsAppButton from '../../shared/WhatsupButton';
 
 const Hero = () => {
     return (
@@ -20,20 +20,14 @@ const Hero = () => {
                             <TextWrite />
                         </span>
                     </h1>
-                    <p className='text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-xl mx-auto md:mx-0'>
-                        I am a passionate web developer specializing in building
-                        and designing exceptional digital experiences.
-                        Currently, I focus on developing responsive,
-                        high-performance full-stack web applications.
+                    <p className='font-inter text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-xl mx-auto md:mx-0'>
+                        I’m a dedicated Full-Stack Web Developer passionate
+                        about crafting modern, responsive, and high-performance
+                        web applications that deliver seamless user experiences.
                     </p>
 
-                    <div>
-                        <Button
-                            size='lg'
-                            className='mt-3 bg-gradient-to-r from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 text-white font-semibold rounded-xl shadow-lg transition-all'
-                        >
-                            Hire Me
-                        </Button>
+                    <div className='w-full flex justify-center md:justify-start mt-4'>
+                        <WhatsAppButton />
                     </div>
                 </div>
 

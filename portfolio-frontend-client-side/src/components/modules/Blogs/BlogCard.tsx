@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function BlogCard({ post }: { post: any }) {
     return (
         <Link
-            href={`/blogs/${post.id}`}
+            href={`/blog/${post.id}`}
             className='block group transform hover:-translate-y-1 transition-transform duration-300'
         >
             <div className='bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300'>
@@ -33,7 +33,7 @@ export default function BlogCard({ post }: { post: any }) {
                         {post.content}
                     </p>
 
-                    <div className='flex items-center justify-between mb-4'>
+                    {/* <div className='flex items-center justify-between mb-4'>
                         <div className='flex items-center gap-2'>
                             <Image
                                 src={
@@ -68,7 +68,7 @@ export default function BlogCard({ post }: { post: any }) {
                         <span className='text-gray-500 dark:text-gray-400 text-sm'>
                             {post.views} views
                         </span>
-                    </div>
+                    </div> */}
 
                     <div className='text-right'>
                         <span className='text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline'>
