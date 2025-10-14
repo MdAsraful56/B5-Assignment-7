@@ -1,6 +1,7 @@
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
+import { authRouter } from './modules/auth/auth.route';
 import { contactRoute } from './modules/contact/contact.route';
 import { postRoute } from './modules/posts/post.route';
 import { projectRouter } from './modules/project/project.route';
@@ -21,6 +22,7 @@ app.use(
 );
 
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/contact', contactRoute);
 app.use('/api/v1/project', projectRouter);
