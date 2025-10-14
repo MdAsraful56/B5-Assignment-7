@@ -1,65 +1,150 @@
 import { Request, Response } from 'express';
+import catchAsync from '../../utilis/catchAsync';
+import { sendResponse } from '../../utilis/sendResponse';
 import { PostService } from './post.service';
 
-const CreatePost = async (req: Request, res: Response) => {
+const CreatePost = catchAsync(async (req: Request, res: Response) => {
     try {
         const post = await PostService.createPost(req.body);
-        res.status(201).json(post);
+        sendResponse(res, {
+            statusCode: 201,
+            success: true,
+            message: 'Post created successfully',
+            data: post,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create post' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to create post',
+            data: null,
+        });
     }
-};
+});
 
-const GetAllPosts = async (req: Request, res: Response) => {
+const GetAllPosts = catchAsync(async (req: Request, res: Response) => {
     try {
-        const posts = await PostService.getAllPosts();
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve posts' });
-    }
-};
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const search = (req.query.search as string) || '';
+        const isFeatured = req.query.isFeatured
+            ? req.query.isFeatured === 'true'
+            : undefined;
+        const tags = req.query.tags
+            ? (req.query.tags as string).split(',')
+            : [];
 
-const GetSinglePost = async (req: Request, res: Response) => {
+        const result = await PostService.getAllPosts({
+            page,
+            limit,
+            search,
+            isFeatured,
+            tags,
+        });
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Posts retrieved successfully',
+            data: result,
+        });
+    } catch (err) {
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to fetch posts',
+            data: null,
+        });
+    }
+});
+
+const GetSinglePost = catchAsync(async (req: Request, res: Response) => {
     try {
         const post = await PostService.getSinglePost(Number(req.params.id));
         if (post) {
-            res.status(200).json(post);
+            sendResponse(res, {
+                statusCode: 200,
+                success: true,
+                message: 'Post retrieved successfully',
+                data: post,
+            });
         } else {
-            res.status(404).json({ error: 'Post not found' });
+            sendResponse(res, {
+                statusCode: 404,
+                success: false,
+                message: 'Post not found',
+                data: null,
+            });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve post' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to retrieve post',
+            data: null,
+        });
     }
-};
+});
 
-const UpdatePost = async (req: Request, res: Response) => {
+const UpdatePost = catchAsync(async (req: Request, res: Response) => {
     try {
         const post = await PostService.updatePost(
             Number(req.params.id),
             req.body
         );
         if (post) {
-            res.status(200).json(post);
+            sendResponse(res, {
+                statusCode: 200,
+                success: true,
+                message: 'Post updated successfully',
+                data: post,
+            });
         } else {
-            res.status(404).json({ error: 'Post not found' });
+            sendResponse(res, {
+                statusCode: 404,
+                success: false,
+                message: 'Post not found',
+                data: null,
+            });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to update post' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to update post',
+            data: null,
+        });
     }
-};
+});
 
-const DeletePost = async (req: Request, res: Response) => {
+const DeletePost = catchAsync(async (req: Request, res: Response) => {
     try {
-        const post = await PostService.deletePost(Number(req.params.id));
-        if (post) {
-            res.status(200).json(post);
-        } else {
-            res.status(404).json({ error: 'Post not found' });
+        if (req.params.id) {
+            const post = await PostService.deletePost(Number(req.params.id));
+            if (post) {
+                sendResponse(res, {
+                    statusCode: 200,
+                    success: true,
+                    message: 'Post deleted successfully',
+                    data: post,
+                });
+            } else {
+                sendResponse(res, {
+                    statusCode: 404,
+                    success: false,
+                    message: 'Post not found',
+                    data: null,
+                });
+            }
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete post' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to delete post',
+            data: null,
+        });
     }
-};
+});
 
 export const PostController = {
     CreatePost,
