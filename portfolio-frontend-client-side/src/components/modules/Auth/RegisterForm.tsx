@@ -1,9 +1,9 @@
 'use client';
-
 import Lottie from 'lottie-react';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import registerLottieData from '../../../../public/assetes/register.json';
 
 const RegisterForm = () => {
@@ -27,16 +27,30 @@ const RegisterForm = () => {
     };
 
     // Handle form submit
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Form Submitted:', formData);
+        // console.log('Form Submitted:', formData);
 
-        // Example API call
-        // await fetch('/api/register', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(formData),
-        // });
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_API}/user/create`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                }
+            );
+            const data = await res.json();
+            if (data?.id) {
+                toast.success('User Registered successfully');
+            } else {
+                toast.error('Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (

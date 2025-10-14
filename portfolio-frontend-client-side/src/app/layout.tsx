@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
+import { ToastContainer } from 'react-toastify';
 import Footer from '../components/shared/Footer';
 import { Navbar } from '../components/shared/Navbar';
 import { geistMono, geistSans, inter, schoolbell } from './fonts';
@@ -32,6 +33,7 @@ export default function RootLayout({
                         <Footer />
                     </main>
                 </ThemeProvider>
+                <ToastContainer position='bottom-right' />
             </body>
         </html>
     );
