@@ -1,65 +1,105 @@
 import { Request, Response } from 'express';
+import catchAsync from '../../utilis/catchAsync';
+import { sendResponse } from '../../utilis/sendResponse';
 import { ProjectService } from './project.service';
 
-const CreateProject = async (req: Request, res: Response) => {
+const CreateProject = catchAsync(async (req: Request, res: Response) => {
     try {
         const project = await ProjectService.createProject(req.body);
-        res.status(201).json(project);
+        sendResponse(res, {
+            statusCode: 201,
+            success: true,
+            message: 'Project created successfully',
+            data: project,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Internal Server Error',
+            data: null,
+        });
     }
-};
+});
 
-const GetAllProjects = async (req: Request, res: Response) => {
+const GetAllProjects = catchAsync(async (req: Request, res: Response) => {
     try {
         const projects = await ProjectService.getAllProjects();
-        res.status(200).json(projects);
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Projects retrieved successfully',
+            data: projects,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Internal Server Error',
+            data: null,
+        });
     }
-};
+});
 
-const GetProjectById = async (req: Request, res: Response) => {
+const GetProjectById = catchAsync(async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const project = await ProjectService.getProjectById(id);
-        if (project) {
-            res.status(200).json(project);
-        } else {
-            res.status(404).json({ message: 'Project not found' });
-        }
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Project retrieved successfully',
+            data: project,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Internal Server Error',
+            data: null,
+        });
     }
-};
+});
 
-const UpdateProject = async (req: Request, res: Response) => {
+const UpdateProject = catchAsync(async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const updatedProject = await ProjectService.updateProject(id, req.body);
-        if (updatedProject) {
-            res.status(200).json(updatedProject);
-        } else {
-            res.status(404).json({ message: 'Project not found' });
-        }
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Project updated successfully',
+            data: updatedProject,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Internal Server Error',
+            data: null,
+        });
     }
-};
+});
 
-const DeleteProject = async (req: Request, res: Response) => {
+const DeleteProject = catchAsync(async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const deletedProject = await ProjectService.deleteProject(id);
-        if (deletedProject) {
-            res.status(200).json({ message: 'Project deleted successfully' });
-        } else {
-            res.status(404).json({ message: 'Project not found' });
-        }
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Project deleted successfully',
+            data: deletedProject,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Internal Server Error',
+            data: null,
+        });
     }
-};
+});
 
 export const ProjectController = {
     CreateProject,

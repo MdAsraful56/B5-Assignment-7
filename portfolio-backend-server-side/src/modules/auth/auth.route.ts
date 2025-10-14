@@ -11,4 +11,8 @@ router.post(
     AuthController.UserLogin
 );
 
+router.post('/google-login', AuthController.AuthWithGoogle);
+
+// router.post('/logout', AuthController.UserLogout);
+
 export const authRouter = router;
