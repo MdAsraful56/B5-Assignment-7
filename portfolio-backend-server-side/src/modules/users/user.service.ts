@@ -1,13 +1,31 @@
 import { Prisma, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { prisma } from '../../config/db';
+import { envVars } from '../../config/env';
+import AppError from '../../error/AppError';
 
 const createUser = async (payload: Prisma.UserCreateInput): Promise<User> => {
+    if (!payload) {
+        throw new AppError(404, 'payload not found');
+    }
+
+    if (!payload.email) {
+        throw new AppError(404, 'email not found');
+    }
+
+    const isUserExist = await prisma.user.findUnique({
+        where: { email: payload.email },
+    });
+
+    if (isUserExist) {
+        throw new AppError(409, 'User already exist with this email.');
+    }
+
     let hashedPassword: string | undefined = undefined;
     if (payload.password) {
         hashedPassword = await bcrypt.hash(
             payload.password,
-            Number(process.env.SALTROUNDS)
+            Number(envVars.SALT_ROUND)
         );
     }
 

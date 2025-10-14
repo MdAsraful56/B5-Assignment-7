@@ -1,58 +1,115 @@
 import { Request, Response } from 'express';
+import catchAsync from '../../utilis/catchAsync';
+import { sendResponse } from '../../utilis/sendResponse';
 import { UserService } from './user.service';
 
-const CreateUser = async (req: Request, res: Response) => {
+const CreateUser = catchAsync(async (req: Request, res: Response) => {
     try {
         const user = await UserService.createUser(req.body);
-        res.status(201).json(user);
+        sendResponse(res, {
+            statusCode: 201,
+            success: true,
+            message: 'User Created Successfully',
+            data: user,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to create user',
+            data: null,
+        });
     }
-};
+});
 
-const GetAllUsers = async (req: Request, res: Response) => {
+const GetAllUsers = catchAsync(async (req: Request, res: Response) => {
     try {
         const users = await UserService.getAllUsers();
-        res.status(200).json(users);
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'Users retrieved successfully',
+            data: users,
+        });
     } catch (error) {
-        res.status(500).json(error);
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to retrieve users',
+            data: null,
+        });
     }
-};
+});
 
-const GetSingleUser = async (req: Request, res: Response) => {
+const GetSingleUser = catchAsync(async (req: Request, res: Response) => {
     try {
         const user = await UserService.getSingleUser(Number(req.params.id));
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return sendResponse(res, {
+                statusCode: 404,
+                success: false,
+                message: 'User not found',
+                data: null,
+            });
         }
-        res.status(200).json(user);
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'User retrieved successfully',
+            data: user,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve user' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to retrieve user',
+            data: null,
+        });
     }
-};
+});
 
-const UpdateUser = async (req: Request, res: Response) => {
+const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     try {
         const updatedUser = await UserService.updateUser(
             Number(req.params.id),
             req.body
         );
-        res.status(200).json(updatedUser);
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'User updated successfully',
+            data: updatedUser,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to update user' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to update user',
+            data: null,
+        });
     }
-};
+});
 
-const DeleteUser = async (req: Request, res: Response) => {
+const DeleteUser = catchAsync(async (req: Request, res: Response) => {
     try {
         const deletedUser = await UserService.deletedUser(
             Number(req.params.id)
         );
-        res.status(200).json(deletedUser);
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: 'User deleted successfully',
+            data: deletedUser,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete user' });
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: 'Failed to delete user',
+            data: null,
+        });
     }
-};
+});
 
 export const UserController = {
     CreateUser,

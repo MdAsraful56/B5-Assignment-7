@@ -39,6 +39,7 @@ const LoginForm = () => {
 
     const handleGoogleLogin = () => {
         console.log('Login with Google');
+        // Implement Google login logic here next.auth
     };
 
     const handleGithubLogin = () => {
