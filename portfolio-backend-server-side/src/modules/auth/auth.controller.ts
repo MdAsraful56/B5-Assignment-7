@@ -1,4 +1,7 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status-codes';
+import { JwtPayload } from 'jsonwebtoken';
+import AppError from '../../error/AppError';
 import catchAsync from '../../utils/catchAsync';
 import { sendResponse } from '../../utils/sendResponse';
 import { setAuthCookies } from '../../utils/setCookies';
@@ -14,6 +17,7 @@ const UserLogin = catchAsync(async (req: Request, res: Response) => {
         );
 
         // Create tokens
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const tokens = createUserTokens(result);
 
         // Set cookies
@@ -58,7 +62,90 @@ const AuthWithGoogle = catchAsync(async (req: Request, res: Response) => {
     }
 });
 
+const Logout = catchAsync(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (req: Request, res: Response, next: NextFunction) => {
+        res.clearCookie('accessToken', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+        });
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+        });
+
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'User logout  Successfully',
+            data: null,
+        });
+    }
+);
+
+const GetNewAccessToken = catchAsync(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (req: Request, res: Response, next: NextFunction) => {
+        const refreshToken = req.cookies.refreshToken;
+
+        // console.log(refreshToken);
+
+        if (!refreshToken) {
+            throw new AppError(
+                httpStatus.BAD_REQUEST,
+                'No refresh Token is resived cookies.'
+            );
+        }
+
+        const tokenInfo = await AuthService.getNewAccessToken(refreshToken);
+
+        setAuthCookies(res, tokenInfo);
+
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'New Access token Retrived Successfully',
+            data: tokenInfo,
+        });
+    }
+);
+
+const ResetPassword = catchAsync(
+    async (
+        req: Request & { user?: JwtPayload },
+        res: Response,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        next: NextFunction
+    ) => {
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
+        const decodedToken = req.user;
+        console.log(decodedToken);
+
+        if (!decodedToken) {
+            throw new AppError(
+                httpStatus.UNAUTHORIZED,
+                'User token is missing or invalid.'
+            );
+        }
+
+        await AuthService.resetPassword(oldPassword, newPassword, decodedToken);
+
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'User Password Change  Successfully',
+            data: null,
+        });
+    }
+);
+
 export const AuthController = {
     UserLogin,
     AuthWithGoogle,
+    Logout,
+    GetNewAccessToken,
+    ResetPassword,
 };

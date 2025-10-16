@@ -10,6 +10,7 @@ interface EnvConfig {
     JWT_ACCESS_EXPIRES: string;
     JWT_REFRESH_SECRET: string;
     JWT_REFRESH_EXPIRES: string;
+    BCRYPT_SALT_ROUNDS: string | number;
     // NEXT_AUTH_SESSION_TOKEN: string;
     // ADMIN_EMAIL: string;
     // ADMIN_PASSWORD: string;
@@ -25,6 +26,7 @@ const loadEnvVariables = (): EnvConfig => {
         'JWT_ACCESS_EXPIRES',
         'JWT_REFRESH_SECRET',
         'JWT_REFRESH_EXPIRES',
+        'BCRYPT_SALT_ROUNDS',
         // 'NEXT_AUTH_SESSION_TOKEN',
         // 'ADMIN_EMAIL',
         // 'ADMIN_PASSWORD',
@@ -45,6 +47,7 @@ const loadEnvVariables = (): EnvConfig => {
         JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES as string,
         JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
         JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES as string,
+        BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS as string | number,
         // NEXT_AUTH_SESSION_TOKEN: process.env.NEXT_AUTH_SESSION_TOKEN as string,
         // ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
         // ADMIN_PASSWORD: process.env.ADMIN_PASSWORD as string,

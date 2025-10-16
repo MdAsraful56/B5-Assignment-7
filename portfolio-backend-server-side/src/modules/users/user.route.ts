@@ -1,4 +1,5 @@
 import express from 'express';
+import { checkAuth } from '../../middlewares/checkAuth';
 import { validateRequest } from '../../middlewares/validateRequest';
 import { UserController } from './user.controller';
 import { createUserZodSchema, updateUserZodSchema } from './user.validation';
@@ -10,7 +11,7 @@ router.post(
     validateRequest(createUserZodSchema),
     UserController.CreateUser
 );
-router.get('/all', UserController.GetAllUsers);
+router.get('/all', checkAuth('ADMIN'), UserController.GetAllUsers);
 router.get('/:id', UserController.GetSingleUser);
 router.patch(
     '/update/:id',

@@ -11,8 +11,11 @@ router.post(
     AuthController.UserLogin
 );
 
+router.post('/refresh-token', AuthController.GetNewAccessToken);
+router.post('/reset-password', AuthController.ResetPassword);
+
 router.post('/google-login', AuthController.AuthWithGoogle);
 
-// router.post('/logout', AuthController.UserLogout);
+router.post('/logout', AuthController.Logout);
 
 export const authRouter = router;
