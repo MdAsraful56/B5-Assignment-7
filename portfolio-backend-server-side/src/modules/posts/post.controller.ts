@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import catchAsync from '../../utilis/catchAsync';
-import { sendResponse } from '../../utilis/sendResponse';
+import catchAsync from '../../utils/catchAsync';
+import { sendResponse } from '../../utils/sendResponse';
 import { PostService } from './post.service';
 
 const CreatePost = catchAsync(async (req: Request, res: Response) => {
