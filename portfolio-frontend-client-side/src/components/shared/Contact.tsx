@@ -1,207 +1,247 @@
 'use client';
 
+import {
+    CheckCircle,
+    Github,
+    Globe,
+    Linkedin,
+    Mail,
+    MapPin,
+    Phone,
+    Send,
+    Twitter,
+} from 'lucide-react';
 import React, { useState } from 'react';
 
 const Contact = () => {
-    // Local state for form data
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
     });
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
-    // Handle input changes
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Handle form submit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('Contact Form Submitted:', formData);
-
-        // Example API call
-        // await fetch('/api/contact', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(formData),
-        // });
+        setIsSubmitted(true);
+        setTimeout(() => {
+            setIsSubmitted(false);
+            setFormData({ name: '', email: '', message: '' });
+        }, 3000);
     };
 
+    const contactInfo = [
+        { icon: MapPin, label: 'Address', value: 'Dhaka, Bangladesh' },
+        { icon: Mail, label: 'Email', value: 'yourname@email.com' },
+        { icon: Phone, label: 'Phone', value: '+880 1XXX-XXXXXX' },
+        { icon: Globe, label: 'Website', value: 'www.yourportfolio.com' },
+    ];
+
+    const socialLinks = [
+        {
+            icon: Linkedin,
+            href: 'https://linkedin.com/in/yourprofile',
+            label: 'LinkedIn',
+        },
+        {
+            icon: Github,
+            href: 'https://github.com/yourprofile',
+            label: 'GitHub',
+        },
+        {
+            icon: Twitter,
+            href: 'https://twitter.com/yourprofile',
+            label: 'Twitter',
+        },
+    ];
+
     return (
-        <div className='min-h-screen flex flex-col lg:flex-row items-center justify-center  px-6 py-10 transition-colors duration-300'>
-            {/* Left side - Lottie Animation
-            <div className='flex justify-center items-center w-full lg:w-1/2 mb-8 lg:mb-0'>
-                <div className='max-w-xs sm:max-w-sm md:max-w-md w-full'>
-                    <Lottie animationData={contactAnimationData} loop={true} />
-                </div>
-            </div> */}
-
-            <div className='bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-10 rounded-xl shadow-xl max-w-2xl mx-auto border border-gray-200 dark:border-gray-700'>
-                <h2 className='text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-8'>
-                    📞 Get in Touch
-                </h2>
-
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700 dark:text-gray-300'>
-                    <div className='flex items-start space-x-3'>
-                        <span className='text-indigo-600 text-2xl'>📍</span>
-                        <div>
-                            <p className='font-semibold'>Address</p>
-                            <p>Dhaka, Bangladesh</p>
-                        </div>
-                    </div>
-
-                    <div className='flex items-start space-x-3'>
-                        <span className='text-indigo-600 text-2xl'>📧</span>
-                        <div>
-                            <p className='font-semibold'>Email</p>
-                            <p>yourname@email.com</p>
-                        </div>
-                    </div>
-
-                    <div className='flex items-start space-x-3'>
-                        <span className='text-indigo-600 text-2xl'>📱</span>
-                        <div>
-                            <p className='font-semibold'>Phone</p>
-                            <p>+880 1XXX-XXXXXX</p>
-                        </div>
-                    </div>
-
-                    <div className='flex items-start space-x-3'>
-                        <span className='text-indigo-600 text-2xl'>🌐</span>
-                        <div>
-                            <p className='font-semibold'>Website</p>
-                            <p>www.yourportfolio.com</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='flex justify-center space-x-6 mt-8'>
-                    <a
-                        href='https://linkedin.com/in/yourprofile'
-                        target='_blank'
-                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
-                    >
-                        <svg
-                            className='w-6 h-6'
-                            fill='currentColor'
-                            viewBox='0 0 24 24'
-                        >
-                            ...
-                        </svg>
-                    </a>
-                    <a
-                        href='https://github.com/yourprofile'
-                        target='_blank'
-                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
-                    >
-                        <svg
-                            className='w-6 h-6'
-                            fill='currentColor'
-                            viewBox='0 0 24 24'
-                        >
-                            ...
-                        </svg>
-                    </a>
-                    <a
-                        href='https://twitter.com/yourprofile'
-                        target='_blank'
-                        className='text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors duration-300'
-                    >
-                        <svg
-                            className='w-6 h-6'
-                            fill='currentColor'
-                            viewBox='0 0 24 24'
-                        >
-                            ...
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            {/* Right side - Contact Form */}
-            <div className='w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 transition-all duration-300'>
+        <div className='min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 px-4 py-16 sm:px-6 lg:px-8 rounded-2xl'>
+            <div className='max-w-7xl mx-auto'>
                 {/* Header */}
-                <div className='text-center mb-8'>
-                    <h2 className='text-3xl font-bold text-gray-900 dark:text-white'>
-                        Contact Us 📩
-                    </h2>
-                    <p className='text-gray-500 dark:text-gray-400 mt-2 text-sm'>
-                        We’d love to hear from you!
+                <div className='text-center mb-16'>
+                    <h1 className='text-5xl sm:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4'>
+                        Let&apos;s Connect
+                    </h1>
+                    <p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
+                        Have a project in mind or just want to say hello?
+                        I&apos;d love to hear from you.
                     </p>
                 </div>
 
-                {/* Contact Form */}
-                <form onSubmit={handleSubmit} className='space-y-5'>
-                    {/* Name */}
-                    <div>
-                        <label
-                            htmlFor='name'
-                            className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
-                        >
-                            Name
-                        </label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            placeholder='Your full name'
-                            className='w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition'
-                        />
+                <div className='grid lg:grid-cols-2 gap-8 lg:gap-12'>
+                    {/* Contact Information Card */}
+                    <div className='space-y-6'>
+                        <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-gray-100 dark:border-slate-800'>
+                            <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-6'>
+                                Get in Touch
+                            </h2>
+
+                            <div className='space-y-4'>
+                                {contactInfo.map((item, index) => {
+                                    const Icon = item.icon;
+                                    return (
+                                        <div
+                                            key={index}
+                                            className='flex items-start space-x-4 p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 hover:shadow-md transition-all duration-300'
+                                        >
+                                            <div className='flex-shrink-0 w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg'>
+                                                <Icon className='w-6 h-6 text-white' />
+                                            </div>
+                                            <div>
+                                                <p className='text-sm font-semibold text-gray-500 dark:text-gray-400'>
+                                                    {item.label}
+                                                </p>
+                                                <p className='text-gray-900 dark:text-white font-medium'>
+                                                    {item.value}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Social Links */}
+                        <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-gray-100 dark:border-slate-800'>
+                            <h3 className='text-xl font-bold text-gray-900 dark:text-white mb-6'>
+                                Follow Me
+                            </h3>
+                            <div className='flex space-x-4'>
+                                {socialLinks.map((social, index) => {
+                                    const Icon = social.icon;
+                                    return (
+                                        <a
+                                            key={index}
+                                            href={social.href}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            className='group w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-800 dark:to-slate-700 rounded-xl flex items-center justify-center hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-md hover:shadow-xl hover:scale-110'
+                                            aria-label={social.label}
+                                        >
+                                            <Icon className='w-6 h-6 text-gray-700 dark:text-gray-300 group-hover:text-white transition-colors' />
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Email */}
-                    <div>
-                        <label
-                            htmlFor='email'
-                            className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
-                        >
-                            Email
-                        </label>
-                        <input
-                            type='email'
-                            id='email'
-                            name='email'
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            placeholder='you@example.com'
-                            className='w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition'
-                        />
-                    </div>
+                    {/* Contact Form */}
+                    <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-gray-100 dark:border-slate-800'>
+                        {isSubmitted ? (
+                            <div className='flex flex-col items-center justify-center h-full space-y-4 py-12'>
+                                <div className='w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-xl'>
+                                    <CheckCircle className='w-10 h-10 text-white' />
+                                </div>
+                                <h3 className='text-2xl font-bold text-gray-900 dark:text-white text-center'>
+                                    Message Sent!
+                                </h3>
+                                <p className='text-gray-600 dark:text-gray-400 text-center'>
+                                    Thank you for reaching out. I&apos;ll get
+                                    back to you soon!
+                                </p>
+                            </div>
+                        ) : (
+                            <div>
+                                <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
+                                    Send a Message
+                                </h2>
+                                <p className='text-gray-600 dark:text-gray-400 mb-8'>
+                                    Fill out the form below and I&apos;ll
+                                    respond as soon as possible.
+                                </p>
 
-                    {/* Message */}
-                    <div>
-                        <label
-                            htmlFor='message'
-                            className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
-                        >
-                            Message
-                        </label>
-                        <textarea
-                            id='message'
-                            name='message'
-                            value={formData.message}
-                            onChange={handleChange}
-                            required
-                            placeholder='Write your message...'
-                            className='w-full h-40 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition resize-none'
-                        />
-                    </div>
+                                <div className='space-y-6'>
+                                    <div>
+                                        <label
+                                            htmlFor='name'
+                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                        >
+                                            Full Name
+                                        </label>
+                                        <input
+                                            type='text'
+                                            id='name'
+                                            name='name'
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            placeholder='John Doe'
+                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
+                                        />
+                                    </div>
 
-                    {/* Submit Button */}
-                    <button
-                        type='submit'
-                        className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition duration-300'
-                    >
-                        Send Message
-                    </button>
-                </form>
+                                    <div>
+                                        <label
+                                            htmlFor='email'
+                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                        >
+                                            Email Address
+                                        </label>
+                                        <input
+                                            type='email'
+                                            id='email'
+                                            name='email'
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder='john@example.com'
+                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            htmlFor='message'
+                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                        >
+                                            Your Message
+                                        </label>
+                                        <textarea
+                                            id='message'
+                                            name='message'
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            placeholder='Tell me about your project or just say hello...'
+                                            rows={5}
+                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200 resize-none'
+                                        />
+                                    </div>
+
+                                    <button
+                                        type='button'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            console.log(
+                                                'Contact Form Submitted:',
+                                                formData
+                                            );
+                                            setIsSubmitted(true);
+                                            setTimeout(() => {
+                                                setIsSubmitted(false);
+                                                setFormData({
+                                                    name: '',
+                                                    email: '',
+                                                    message: '',
+                                                });
+                                            }, 3000);
+                                        }}
+                                        className='w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center space-x-2'
+                                    >
+                                        <span>Send Message</span>
+                                        <Send className='w-5 h-5' />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

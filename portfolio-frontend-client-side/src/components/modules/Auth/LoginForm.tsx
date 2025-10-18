@@ -4,58 +4,79 @@ import Lottie from 'lottie-react';
 import { Eye, EyeOff, Github } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
+
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'react-toastify';
 import loginLottieData from '../../../../public/assetes/login.json';
 
 const LoginForm = () => {
-    // Local state for inputs
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
-    // Password visibility toggle
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // Handle input change
+    // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle submit
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // Handle form submit
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
 
-        // This is where your data will go (example: send to backend API)
-        console.log('Form Data:', formData);
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                    credentials: 'include',
+                }
+            );
 
-        // Example:
-        // await fetch('/api/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(formData),
-        // });
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success('Login successful 🎉');
+                console.log('User Data:', data);
+                // redirect user or update session here
+            } else {
+                toast.error(data.message || 'Invalid email or password');
+            }
+        } catch (error) {
+            console.error('Login Error:', error);
+            toast.error('Something went wrong. Try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleGoogleLogin = () => {
-        console.log('Login with Google');
-        // Implement Google login logic here next.auth
+        toast('Redirecting to Google Login...');
+        // Example: signIn('google') if using next-auth
     };
 
     const handleGithubLogin = () => {
-        console.log('Login with GitHub');
+        toast('Redirecting to GitHub Login...');
+        // Example: signIn('github')
     };
 
     return (
         <div className='min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gray-50 dark:bg-gray-950 px-6 py-10 transition-colors duration-300'>
-            {/* Left Side — Lottie (now also visible on small screens) */}
+            {/* Left side — Lottie */}
             <div className='flex justify-center items-center w-full lg:w-1/2 mb-8 lg:mb-0'>
                 <div className='max-w-xs sm:max-w-sm md:max-w-md w-full'>
-                    <Lottie animationData={loginLottieData} loop={true} />
+                    <Lottie animationData={loginLottieData} loop />
                 </div>
             </div>
 
-            {/* Right Side — Form */}
+            {/* Right side — Form */}
             <div className='w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 transition-all duration-300'>
                 {/* Header */}
                 <div className='text-center mb-8'>
@@ -69,7 +90,7 @@ const LoginForm = () => {
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className='space-y-5'>
-                    {/* Email */}
+                    {/* Email Field */}
                     <div>
                         <label
                             htmlFor='email'
@@ -89,7 +110,7 @@ const LoginForm = () => {
                         />
                     </div>
 
-                    {/* Password + Eye icon */}
+                    {/* Password Field */}
                     <div className='relative'>
                         <label
                             htmlFor='password'
@@ -109,8 +130,9 @@ const LoginForm = () => {
                         />
                         <button
                             type='button'
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => setShowPassword((prev) => !prev)}
                             className='absolute right-3 top-9 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition'
+                            aria-label='Toggle password visibility'
                         >
                             {showPassword ? (
                                 <EyeOff size={20} />
@@ -120,12 +142,17 @@ const LoginForm = () => {
                         </button>
                     </div>
 
-                    {/* Submit button */}
+                    {/* Submit Button */}
                     <button
                         type='submit'
-                        className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition duration-300'
+                        disabled={loading}
+                        className={`w-full font-semibold py-2.5 rounded-lg transition duration-300 ${
+                            loading
+                                ? 'bg-indigo-400 cursor-not-allowed'
+                                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                        }`}
                     >
-                        Sign In
+                        {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
 
@@ -136,7 +163,7 @@ const LoginForm = () => {
                     <div className='flex-grow border-t border-gray-200 dark:border-gray-800'></div>
                 </div>
 
-                {/* Social Login */}
+                {/* Social Logins */}
                 <div className='flex flex-col sm:flex-row gap-4'>
                     <button
                         type='button'
