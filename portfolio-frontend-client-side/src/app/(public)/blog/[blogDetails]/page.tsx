@@ -33,7 +33,7 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                 <div className='bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden'>
                     {/* Thumbnail Image */}
                     <div className='w-full h-96 overflow-hidden'>
-                        <Image
+                        <img
                             src={thumbnailUrl}
                             alt={blogData.title}
                             className='w-full h-full object-cover hover:scale-105 transition-transform duration-500'

@@ -12,6 +12,7 @@ import {
     Twitter,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -27,9 +28,30 @@ const Contact = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('Contact Form Submitted:', formData);
+
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_API}/contact/create`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                }
+            );
+
+            const data = await response.json();
+            toast.success('Message sent successfully!');
+            // console.log('Success:', data);
+        } catch (error) {
+            // console.error('Error:', error);
+            toast.error('Failed to send message. Please try again later.');
+        }
+
         setIsSubmitted(true);
         setTimeout(() => {
             setIsSubmitted(false);
@@ -39,8 +61,8 @@ const Contact = () => {
 
     const contactInfo = [
         { icon: MapPin, label: 'Address', value: 'Dhaka, Bangladesh' },
-        { icon: Mail, label: 'Email', value: 'yourname@email.com' },
-        { icon: Phone, label: 'Phone', value: '+880 1XXX-XXXXXX' },
+        { icon: Mail, label: 'Email', value: 'work.mdasraful56@gmail.com' },
+        { icon: Phone, label: 'Phone', value: '+880 1889245756' },
         { icon: Globe, label: 'Website', value: 'www.yourportfolio.com' },
     ];
 

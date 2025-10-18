@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import me from '../../../../public/assetes/me.png';
 import TextWrite from '../../shared/TextWrite';

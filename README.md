@@ -72,19 +72,6 @@ JWT_SECRET="your-secret-key"
    bash
    npm run seed
 
-## 🚀 Usage
-
-### Development
-
-bash
-npm run dev
-
-# or
-
-yarn dev
-
-Visit [http://localhost:3000](http://localhost:3000)
-
 ### Production Build
 
 bash
@@ -99,10 +86,9 @@ yarn start
 ## 📁 Project Structure
 
 portfolio/
+
 ├── portfolio-backend-server-side
-
 ├── portfolio-frontend-client-side
-
 ├── package-lock.json
 ├── package.json
 ├── README.md
@@ -133,29 +119,6 @@ title String
 description String
 createdAt DateTime @default(now())
 }
-
-## 🧪 Testing
-
-bash
-npm run test
-
-# or
-
-yarn test
-
-## 📦 Deployment
-
-### Vercel (Recommended for Next.js)
-
-bash
-npm install -g vercel
-vercel
-
-### Docker
-
-bash
-docker build -t portfolio .
-docker run -p 3000:3000 portfolio
 
 ## 🤝 Contributing
 

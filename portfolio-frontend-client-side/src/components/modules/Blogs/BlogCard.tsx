@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -32,7 +31,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                 key={post.id}
             >
                 {post.thumbnail ? (
-                    <Image
+                    <img
                         src={post.thumbnail}
                         alt={post.title}
                         className='w-full h-48 object-cover rounded-md mb-3'

@@ -1,5 +1,4 @@
 import { Calendar, Code2, ExternalLink, Folder, Github } from 'lucide-react';
-import Image from 'next/image';
 
 interface ProjectType {
     id: number;
@@ -62,7 +61,7 @@ const Project = async () => {
                                 {/* Project Image */}
                                 <div className='relative h-48 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-950/50 dark:to-purple-950/50 overflow-hidden'>
                                     {project.image ? (
-                                        <Image
+                                        <img
                                             src={project.image}
                                             alt={project.name}
                                             width={400}
