@@ -47,7 +47,7 @@ export function Navbar() {
                             {[
                                 { title: 'Home', href: '/' },
                                 { title: 'Blog', href: '/blog' },
-                                { title: 'Features', href: '/features' },
+                                { title: 'Project', href: '/project' },
                                 { title: 'About', href: '/about' },
                                 { title: 'Dashboard', href: '/dashboard' },
                             ].map((item) => (

@@ -11,6 +11,7 @@ import {
     X,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const ProjectForm = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -46,18 +47,22 @@ const ProjectForm = () => {
 
         console.log('Project Data:', projectData);
 
-        // Example API call
-        // try {
-        //     const response = await fetch('/api/projects', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify(projectData),
-        //     });
-        //     const data = await response.json();
-        //     console.log('Success:', data);
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_API}/project/create`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(projectData),
+                }
+            );
+            const data = await response.json();
+            console.log('Success:', data);
+            toast.success('Project created successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('Failed to create project. Please try again.');
+        }
 
         setIsSubmitted(true);
         setTimeout(() => {

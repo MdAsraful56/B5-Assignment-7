@@ -11,6 +11,8 @@ router.post(
     AuthController.UserLogin
 );
 
+router.get('/me', AuthController.GetLoggedInUser);
+
 router.post('/refresh-token', AuthController.GetNewAccessToken);
 router.post('/reset-password', AuthController.ResetPassword);
 

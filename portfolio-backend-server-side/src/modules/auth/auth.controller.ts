@@ -142,10 +142,29 @@ const ResetPassword = catchAsync(
     }
 );
 
+const GetLoggedInUser = catchAsync(
+    async (req: Request & { user?: JwtPayload }, res: Response) => {
+        const user = req.user;
+        console.log(user);
+
+        if (!user) {
+            throw new AppError(httpStatus.UNAUTHORIZED, 'User not logged in');
+        }
+
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'Logged in user retrieved successfully',
+            data: user,
+        });
+    }
+);
+
 export const AuthController = {
     UserLogin,
     AuthWithGoogle,
     Logout,
+    GetLoggedInUser,
     GetNewAccessToken,
     ResetPassword,
 };

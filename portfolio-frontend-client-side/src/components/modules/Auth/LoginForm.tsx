@@ -5,11 +5,15 @@ import { Eye, EyeOff, Github } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import loginLottieData from '../../../../public/assetes/login.json';
 
 const LoginForm = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl') || '/';
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -34,9 +38,9 @@ const LoginForm = () => {
                 `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
                 {
                     method: 'POST',
+                    credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData),
-                    credentials: 'include',
                 }
             );
 
@@ -45,6 +49,7 @@ const LoginForm = () => {
             if (res.ok) {
                 toast.success('Login successful 🎉');
                 console.log('User Data:', data);
+                router.push(callbackUrl);
                 // redirect user or update session here
             } else {
                 toast.error(data.message || 'Invalid email or password');

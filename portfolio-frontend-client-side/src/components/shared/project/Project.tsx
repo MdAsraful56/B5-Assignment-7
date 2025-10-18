@@ -24,7 +24,7 @@ const Project = async () => {
     const projects: ProjectType[] = data.data || [];
 
     return (
-        <section className='py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/50'>
+        <section className='rounded-2xl mt-5 py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/50'>
             <div className='max-w-7xl mx-auto'>
                 {/* Header */}
                 <div className='text-center mb-16'>
@@ -65,6 +65,8 @@ const Project = async () => {
                                         <Image
                                             src={project.image}
                                             alt={project.name}
+                                            width={400}
+                                            height={192}
                                             className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-300'
                                         />
                                     ) : (

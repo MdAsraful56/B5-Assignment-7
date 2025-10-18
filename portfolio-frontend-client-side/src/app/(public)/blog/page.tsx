@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Metadata } from 'next';
 import BlogCard from '../../../components/modules/Blogs/BlogCard';
 
@@ -14,15 +12,18 @@ const AllBlogsPage = async () => {
         cache: 'no-store',
     });
 
-    const blogs = await res.json();
+    const result = await res.json();
+    const blogs = result.data.data;
     console.log(blogs);
     return (
         <div className='py-30 px-4 max-w-7xl mx-auto'>
             <h2 className='text-center text-4xl'>All Blogs</h2>
             <div className='grid grid-cols-3 gap-4 mx-auto max-w-6xl my-5'>
-                {blogs.map((blog: any) => (
-                    <BlogCard key={blog.id} post={blog} />
-                ))}
+                {blogs.length === 0 ? (
+                    <p className='text-center col-span-3'>No blogs found.</p>
+                ) : (
+                    blogs.map((post) => <BlogCard key={post.id} post={post} />)
+                )}
             </div>
         </div>
     );

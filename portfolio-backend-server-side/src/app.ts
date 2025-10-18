@@ -11,9 +11,8 @@ const app = express();
 
 // Middleware
 dotenv.config();
-app.use(cors()); // Enables Cross-Origin Resource Sharing
+app.use(express.json());
 app.use(compression()); // Compresses response bodies for faster delivery
-app.use(express.json()); // Parse incoming JSON requests
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies
 
 app.use(

@@ -1,3 +1,4 @@
+import BlogPostForm from '../components/modules/Blogs/BlogPostForm';
 import Hero from '../components/modules/Home/Hero';
 import Contact from '../components/shared/Contact';
 import Project from '../components/shared/project/Project';
@@ -13,6 +14,7 @@ const HomePage = () => {
                 <Project />
                 <Contact />
                 <ProjectForm />
+                <BlogPostForm />
             </section>
         </div>
     );

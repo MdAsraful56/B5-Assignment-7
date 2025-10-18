@@ -47,10 +47,10 @@ const Skill = () => {
                     <div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-6 shadow-lg'>
                         <Code2 className='w-8 h-8 text-white' />
                     </div>
-                    <h2 className='text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4'>
+                    <h2 className='text-3xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4'>
                         Skills & Expertise
                     </h2>
-                    <p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
+                    <p className='text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
                         Technologies and tools I use to bring ideas to life
                     </p>
                 </div>
