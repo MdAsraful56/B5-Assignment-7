@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
+// ⭐ TypeScript Types Declaration
 declare module 'next-auth' {
     interface Session {
         user: {
@@ -10,8 +11,9 @@ declare module 'next-auth' {
             name?: string;
             email?: string;
             image?: string | null;
-            role?: string;
+            role: string;
         };
+        backendToken?: string;
     }
     interface User {
         id: string;
@@ -19,7 +21,45 @@ declare module 'next-auth' {
         email?: string;
         image?: string | null;
         role?: string;
+        backendToken?: string;
     }
+}
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        id?: string;
+        email?: string;
+        role?: string;
+        backendToken?: string;
+    }
+}
+
+// ⭐ Helper function: Backend থেকে user data fetch করুন
+async function fetchUserFromBackend(email: string) {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/user/email/${email}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                id: data?.data?._id || data?.data?.id,
+                email: data?.data?.email,
+                role: data?.data?.role || 'user',
+                token: data?.data?.token,
+            };
+        }
+    } catch (error) {
+        console.error('Failed to fetch user from backend:', error);
+    }
+    return null;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -35,10 +75,7 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: {
-                    label: 'Email',
-                    type: 'text',
-                },
+                email: { label: 'Email', type: 'text' },
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
@@ -61,14 +98,13 @@ export const authOptions: NextAuthOptions = {
                             }),
                         }
                     );
-                    console.log('res backend ', res);
+
                     if (!res?.ok) {
                         console.error('Login Failed', await res.text());
                         return null;
                     }
 
                     const result = await res.json();
-
                     const user = result?.data?.user;
 
                     if (user?.id) {
@@ -77,7 +113,8 @@ export const authOptions: NextAuthOptions = {
                             name: user.name,
                             email: user.email,
                             image: user.picture || null,
-                            role: user.role || 'USER',
+                            role: user.role || 'user',
+                            backendToken: result?.data?.token,
                         };
                     } else {
                         return null;
@@ -90,32 +127,14 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        // async signIn({ user, account }) {
-        //     try {
-        //         console.log('user.....', user);
-        //         console.log('account.....', account);
-        //         // আপনার backend API call
-        //         await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/create`, {
-        //             method: 'POST',
-        //             body: JSON.stringify({
-        //                 email: user.email,
-        //                 name: user.name,
-        //                 image: user.image,
-        //                 provider: account?.provider,
-        //             }),
-        //         });
-        //         return true;
-        //     } catch (error) {
-        //         console.error('Save user error:', error);
-        //         return false;
-        //     }
-        // },
+        // ⭐ Step 1: signIn
         async signIn({ user, account }) {
-            try {
-                // console.log('user.....', user);
-                // console.log('account.....', account);
+            if (account?.provider === 'credentials') {
+                return true;
+            }
 
-                // Backend API call
+            try {
+                // OAuth - Backend এ user create করুন
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_API}/user/create`,
                     {
@@ -132,57 +151,78 @@ export const authOptions: NextAuthOptions = {
                     }
                 );
 
-                // Response check করুন
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Backend error:', errorData);
-
-                    // যদি user already exist করে, তাহলেও login allow করুন
                     if (response.status === 409 || response.status === 400) {
-                        console.log('User already exists, allowing login');
-
-                        // User role set করুন
-                        user.role = 'USER';
-
+                        console.log('User already exists');
+                        // ⭐ Existing user - backend থেকে fresh data fetch করুন
+                        const userData = await fetchUserFromBackend(
+                            user.email!
+                        );
+                        if (userData) {
+                            user.role = userData.role;
+                            user.id = userData.id;
+                            user.backendToken = userData.token;
+                        } else {
+                            user.role = 'user'; // Fallback
+                        }
                         return true;
                     }
-
                     return false;
                 }
 
                 const data = await response.json();
-                console.log('User created/updated:', data);
-                user.role = data?.data?.role;
-
-                console.log(user.role, '..................');
+                user.role = data?.data?.role || 'user';
+                user.id = data?.data?._id || data?.data?.id || user.id;
+                user.backendToken = data?.data?.token;
 
                 return true;
             } catch (error) {
                 console.error('Save user error:', error);
-
-                // Network error হলেও login allow করতে পারেন (optional)
-                // return true;
-
                 return false;
             }
         },
-        async jwt({ token, user }) {
+
+        // ⭐ Step 2: JWT - প্রতিবার backend থেকে role fetch করুন
+        async jwt({ token, user, trigger, session }) {
+            // প্রথম login এ
             if (user) {
                 token.id = user.id;
+                token.email = user.email;
                 token.role = user.role || 'user';
+                token.backendToken = user.backendToken;
             }
+
+            // ⭐ IMPORTANT: প্রতিবার JWT refresh হলে backend থেকে role fetch করুন
+            // এটা করলে backend এ role change করলে session এ update হবে
+            if (token.email && !user) {
+                const userData = await fetchUserFromBackend(token.email);
+                if (userData) {
+                    token.role = userData.role; // ⭐ Fresh role set করুন
+                    token.id = userData.id;
+                }
+            }
+
+            // Manual session update
+            if (trigger === 'update' && session) {
+                token.role = session.role;
+            }
+
             return token;
         },
+
+        // ⭐ Step 3: Session
         async session({ session, token }) {
             if (token && session.user) {
                 session.user.id = token.id as string;
-                session.user.role = token.role as string;
+                session.user.role = (token.role as string) || 'user';
+                session.backendToken = token.backendToken as string;
             }
             return session;
         },
     },
     session: {
-        strategy: 'jwt', // ⭐ এটা important
+        strategy: 'jwt',
+        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     secret: process.env.AUTH_SECRET as string,
     pages: {
