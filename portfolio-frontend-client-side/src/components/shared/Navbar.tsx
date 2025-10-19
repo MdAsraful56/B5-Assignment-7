@@ -17,11 +17,16 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import logo from '../../../public/assetes/logo/logo (1).png';
+import { authOptions } from '../../helpers/authOptions';
 import { ModeToggle } from '../ModeToggle';
 
-export function Navbar() {
+export async function Navbar() {
+    // const session = useSession();
+    const session = await getServerSession(authOptions);
+
     return (
         <header className='sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md'>
             <div className='container flex h-16 items-center justify-between'>
@@ -67,9 +72,26 @@ export function Navbar() {
 
                     {/* Mode Toggle & Login */}
                     <ModeToggle />
-                    <Button asChild>
-                        <Link href='/login'>Login</Link>
-                    </Button>
+
+                    {session ? (
+                        <div className='text-sm'>
+                            {session.user?.image ? (
+                                <img
+                                    src={session.user?.image as string}
+                                    alt={session.user?.name ?? 'User avatar'}
+                                    width={32}
+                                    height={32}
+                                    className='rounded-full'
+                                />
+                            ) : (
+                                <div className='h-7 w-7 rounded-full bg-muted' />
+                            )}
+                        </div>
+                    ) : (
+                        <Button asChild>
+                            <Link href='/login'>Login</Link>
+                        </Button>
+                    )}
                 </div>
 
                 {/* Mobile Menu */}

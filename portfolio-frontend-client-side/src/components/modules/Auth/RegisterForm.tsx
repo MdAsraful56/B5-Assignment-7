@@ -2,9 +2,11 @@
 import Lottie from 'lottie-react';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import registerLottieData from '../../../../public/assetes/register.json';
+import { register } from '../../../actions/auth';
 
 const RegisterForm = () => {
     // State for form data
@@ -17,6 +19,7 @@ const RegisterForm = () => {
 
     // Show/hide password
     const [showPassword, setShowPassword] = useState(false);
+    const route = useRouter();
 
     // Handle input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,22 +32,13 @@ const RegisterForm = () => {
     // Handle form submit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // console.log('Form Submitted:', formData);
-
+        console.log('formData', formData);
         try {
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_API}/user/create`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                }
-            );
-            const data = await res.json();
-            if (data?.id) {
+            const res = await register(formData);
+            // console.log(res);
+            if (res?.data?.id) {
                 toast.success('User Registered successfully');
+                route.push('/login');
             } else {
                 toast.error('Registration failed');
             }

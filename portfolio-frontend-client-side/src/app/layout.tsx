@@ -1,8 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
 import { ToastContainer } from 'react-toastify';
-import Footer from '../components/shared/Footer';
-import { Navbar } from '../components/shared/Navbar';
 import AuthProvider from '../providers/AuthProvider';
 import { geistMono, geistSans, inter, schoolbell } from './fonts';
 import './globals.css';
@@ -30,9 +28,9 @@ export default function RootLayout({
                 >
                     <main className='max-w-7xl mx-auto px-5'>
                         <AuthProvider>
-                            <Navbar />
+                            {/* <Navbar /> */}
                             {children}
-                            <Footer />
+                            {/* <Footer /> */}
                         </AuthProvider>
                     </main>
                 </ThemeProvider>

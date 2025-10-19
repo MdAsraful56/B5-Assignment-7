@@ -6,15 +6,13 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import loginLottieData from '../../../../public/assetes/login.json';
 
 const LoginForm = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/';
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -35,26 +33,20 @@ const LoginForm = () => {
         setLoading(true);
 
         try {
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
-                }
-            );
+            // const res = await login(formData);
+            // console.log(res);
+            // if (res?.data?.user?.id) {
+            //     toast.success('User Logged in successfully');
+            //     router.push('/dashboard');
+            // } else {
+            //     toast.error('Login failed');
+            // }
 
-            const data = await res.json();
-
-            if (res.ok) {
-                toast.success('Login successful 🎉');
-                console.log('User Data:', data);
-                router.push(callbackUrl);
-                // redirect user or update session here
-            } else {
-                toast.error(data.message || 'Invalid email or password');
-            }
+            signIn('credentials', {
+                ...formData,
+                // router.push('/dashboard')
+                callbackUrl: '/d',
+            });
         } catch (error) {
             console.error('Login Error:', error);
             toast.error('Something went wrong. Try again.');
