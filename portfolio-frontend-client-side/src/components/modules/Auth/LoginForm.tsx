@@ -1,10 +1,11 @@
 'use client';
 
 import Lottie from 'lottie-react';
-import { Eye, EyeOff, Github } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
+import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
@@ -62,15 +63,22 @@ const LoginForm = () => {
         }
     };
 
-    const handleGoogleLogin = () => {
-        toast('Redirecting to Google Login...');
-        // Example: signIn('google') if using next-auth
+    const handleGoogleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        signIn('google', {
+            callbackUrl: '/dashboard',
+        });
+        if (true) {
+            toast.success('Google Login...');
+        }
     };
 
-    const handleGithubLogin = () => {
-        toast('Redirecting to GitHub Login...');
-        // Example: signIn('github')
-    };
+    // const handleGithubLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //     e.preventDefault();
+    //     toast('Redirecting to GitHub Login...');
+    //     // Example: signIn('github')
+    //     signIn('github');
+    // };
 
     return (
         <div className='min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gray-50 dark:bg-gray-950 px-6 py-10 transition-colors duration-300'>
@@ -181,7 +189,7 @@ const LoginForm = () => {
                         </span>
                     </button>
 
-                    <button
+                    {/* <button
                         type='button'
                         onClick={handleGithubLogin}
                         className='flex items-center justify-center flex-1 gap-2 border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300'
@@ -193,7 +201,7 @@ const LoginForm = () => {
                         <span className='text-gray-700 dark:text-gray-200 text-sm font-medium'>
                             GitHub
                         </span>
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* Footer */}

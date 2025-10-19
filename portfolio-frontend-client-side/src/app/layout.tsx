@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { ToastContainer } from 'react-toastify';
 import Footer from '../components/shared/Footer';
 import { Navbar } from '../components/shared/Navbar';
+import AuthProvider from '../providers/AuthProvider';
 import { geistMono, geistSans, inter, schoolbell } from './fonts';
 import './globals.css';
 
@@ -28,9 +29,11 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <main className='max-w-7xl mx-auto px-5'>
-                        <Navbar />
-                        {children}
-                        <Footer />
+                        <AuthProvider>
+                            <Navbar />
+                            {children}
+                            <Footer />
+                        </AuthProvider>
                     </main>
                 </ThemeProvider>
                 <ToastContainer position='bottom-right' />
