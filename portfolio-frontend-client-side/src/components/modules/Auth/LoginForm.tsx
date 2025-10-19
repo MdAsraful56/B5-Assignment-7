@@ -5,14 +5,12 @@ import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import loginLottieData from '../../../../public/assetes/login.json';
 
 const LoginForm = () => {
-    const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -20,6 +18,8 @@ const LoginForm = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const session = useSession();
+    // console.log(session, 'login form');
 
     // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,9 +44,9 @@ const LoginForm = () => {
 
             signIn('credentials', {
                 ...formData,
-                // router.push('/dashboard')
-                callbackUrl: '/d',
+                callbackUrl: '/dashboard',
             });
+            toast.success('Login Successful! Redirecting...');
         } catch (error) {
             console.error('Login Error:', error);
             toast.error('Something went wrong. Try again.');
@@ -57,12 +57,14 @@ const LoginForm = () => {
 
     const handleGoogleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+
+        toast.info('Google Login Starting...');
         signIn('google', {
-            callbackUrl: '/dashboard',
+            callbackUrl: '/dashboard?login=success',
         });
-        if (true) {
-            toast.success('Google Login...');
-        }
+        // if (session.status !== 'loading') {
+        //     toast.success('Google Login...');
+        // }
     };
 
     // const handleGithubLogin = (e: React.MouseEvent<HTMLButtonElement>) => {

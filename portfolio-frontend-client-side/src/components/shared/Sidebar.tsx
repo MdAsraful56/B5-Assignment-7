@@ -7,6 +7,8 @@ import Link from 'next/link';
 
 export default function Sidebar() {
     const session = useSession();
+    console.log(session);
+    console.log('User Role:', session?.data?.user?.role);
 
     return (
         <aside className='flex h-screen w-64 flex-col border-r dark:bg-black bg-white text-black dark:text-white'>
@@ -35,7 +37,7 @@ export default function Sidebar() {
                     <Button
                         variant='destructive'
                         className='w-full justify-start gap-2 cursor-pointer'
-                        onClick={() => signOut()}
+                        onClick={() => signOut({ callbackUrl: '/' })}
                     >
                         <LogOut className='h-4 w-4' />
                         Logout

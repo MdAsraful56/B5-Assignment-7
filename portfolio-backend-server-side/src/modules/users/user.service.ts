@@ -16,10 +16,9 @@ const createUser = async (payload: Prisma.UserCreateInput): Promise<User> => {
     const isUserExist = await prisma.user.findUnique({
         where: { email: payload.email },
     });
-
-    if (isUserExist) {
-        throw new AppError(409, 'User already exist with this email.');
-    }
+    let user = await prisma.user.findUnique({
+        where: { email: payload.email },
+    });
 
     let hashedPassword: string | undefined = undefined;
     if (payload.password) {
@@ -27,6 +26,10 @@ const createUser = async (payload: Prisma.UserCreateInput): Promise<User> => {
             payload.password,
             Number(envVars.SALT_ROUND)
         );
+    }
+    if (user) {
+        // throw new AppError(409, 'User already exists');
+        return user;
     }
 
     const createUser = await prisma.user.create({
