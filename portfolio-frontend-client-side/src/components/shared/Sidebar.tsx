@@ -7,8 +7,9 @@ import Link from 'next/link';
 
 export default function Sidebar() {
     const session = useSession();
-    console.log(session);
-    console.log('User Role:', session?.data?.user?.role);
+    // console.log(session);
+    // console.log('User Role:', session?.data?.user?.role);
+    const userRole = session?.data?.user?.role;
 
     return (
         <aside className='flex h-screen w-64 flex-col border-r dark:bg-black bg-white text-black dark:text-white'>
@@ -29,6 +30,15 @@ export default function Sidebar() {
                     <PlusCircle className='h-4 w-4' />
                     Create Blog
                 </Link>
+                {userRole === 'ADMIN' && (
+                    <Link
+                        href='/dashboard/create-project'
+                        className='flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black'
+                    >
+                        <PlusCircle className='h-4 w-4' />
+                        Create Project
+                    </Link>
+                )}
             </nav>
 
             {/* Bottom action */}

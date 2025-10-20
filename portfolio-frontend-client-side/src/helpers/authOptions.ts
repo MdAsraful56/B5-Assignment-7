@@ -13,7 +13,7 @@ declare module 'next-auth' {
             image?: string | null;
             role: string;
         };
-        backendToken?: string;
+        // backendToken?: string;
     }
     interface User {
         id: string;
@@ -21,7 +21,7 @@ declare module 'next-auth' {
         email?: string;
         image?: string | null;
         role?: string;
-        backendToken?: string;
+        // backendToken?: string;
     }
 }
 
@@ -161,7 +161,7 @@ export const authOptions: NextAuthOptions = {
                         if (userData) {
                             user.role = userData.role;
                             user.id = userData.id;
-                            user.backendToken = userData.token;
+                            // user.backendToken = userData.token;
                         } else {
                             user.role = 'user'; // Fallback
                         }
@@ -173,7 +173,7 @@ export const authOptions: NextAuthOptions = {
                 const data = await response.json();
                 user.role = data?.data?.role || 'user';
                 user.id = data?.data?._id || data?.data?.id || user.id;
-                user.backendToken = data?.data?.token;
+                // user.backendToken = data?.data?.token;
 
                 return true;
             } catch (error) {
@@ -189,7 +189,7 @@ export const authOptions: NextAuthOptions = {
                 token.id = user.id;
                 token.email = user.email;
                 token.role = user.role || 'user';
-                token.backendToken = user.backendToken;
+                // token.backendToken = user.backendToken;
             }
 
             // ⭐ IMPORTANT: প্রতিবার JWT refresh হলে backend থেকে role fetch করুন
@@ -215,7 +215,7 @@ export const authOptions: NextAuthOptions = {
             if (token && session.user) {
                 session.user.id = token.id as string;
                 session.user.role = (token.role as string) || 'user';
-                session.backendToken = token.backendToken as string;
+                // session.backendToken = token.backendToken as string;
             }
             return session;
         },
