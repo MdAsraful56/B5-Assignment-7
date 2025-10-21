@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const ProjectForm = () => {
     const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const ProjectForm = () => {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = validateForm();
@@ -79,11 +80,21 @@ const ProjectForm = () => {
             image: formData.image || null,
         };
 
-        setTimeout(() => {
-            console.log('Form submitted:', submitData);
-            alert('Project created successfully!');
-            setIsSubmitting(false);
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/project/create`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitData),
+            }
+        );
+        const result = await res.json();
+        console.log(result);
 
+        if (result?.data?.id) {
+            toast.success('Project created successfully!');
             setFormData({
                 name: '',
                 description: '',
@@ -92,7 +103,11 @@ const ProjectForm = () => {
                 techStack: '',
                 image: '',
             });
-        }, 1000);
+        } else {
+            toast.error('Failed to create project. Please try again.');
+        }
+
+        setIsSubmitting(false);
     };
 
     return (

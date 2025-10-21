@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const BlogPostForm = () => {
     const [formData, setFormData] = useState({
@@ -50,7 +51,7 @@ const BlogPostForm = () => {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = validateForm();
@@ -72,20 +73,31 @@ const BlogPostForm = () => {
             content: formData.content.trim(),
             thumbnail: formData.thumbnail || null,
             tags: tagsArray,
+            authorId: 34,
         };
 
-        setTimeout(() => {
-            console.log('Blog post submitted:', submitData);
-            alert('Blog post created successfully!');
-            setIsSubmitting(false);
-
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/post/create`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitData),
+            }
+        );
+        const result = await res.json();
+        if (result?.id) {
+            toast.success('Blog post created successfully!');
             setFormData({
                 title: '',
                 content: '',
                 thumbnail: '',
                 tags: '',
             });
-        }, 1000);
+        } else {
+            toast.error('Failed to create blog post. Please try again.');
+        }
     };
 
     const wordCount = formData.content
