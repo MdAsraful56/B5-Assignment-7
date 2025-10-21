@@ -2,7 +2,7 @@ import ProjectForm from '../../../../components/shared/project/ProjectForm';
 
 const CreateProjectPage = () => {
     return (
-        <div>
+        <div className='max-w-4xl mx-auto'>
             <ProjectForm />
         </div>
     );

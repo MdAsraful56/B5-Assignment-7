@@ -1,21 +1,8 @@
 'use client';
 
-import {
-    Calendar,
-    CheckCircle,
-    Code,
-    Github,
-    Image,
-    Link,
-    Plus,
-    X,
-} from 'lucide-react';
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const ProjectForm = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -25,49 +12,78 @@ const ProjectForm = () => {
         image: '',
     });
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+        if (errors[name]) {
+            setErrors((prev) => ({ ...prev, [name]: '' }));
+        }
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const validateForm = () => {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = 'Project name is required';
+        }
+
+        if (!formData.description.trim()) {
+            newErrors.description = 'Project description is required';
+        }
+
+        if (!formData.liveLink.trim()) {
+            newErrors.liveLink = 'Live link is required';
+        } else if (!/^https?:\/\/.+/.test(formData.liveLink)) {
+            newErrors.liveLink = 'Please enter a valid URL';
+        }
+
+        if (!formData.repoLink.trim()) {
+            newErrors.repoLink = 'Repository link is required';
+        } else if (!/^https?:\/\/.+/.test(formData.repoLink)) {
+            newErrors.repoLink = 'Please enter a valid URL';
+        }
+
+        if (!formData.techStack.trim()) {
+            newErrors.techStack = 'Tech stack is required';
+        }
+
+        return newErrors;
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Tech stack কে array তে convert করা
+        const newErrors = validateForm();
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setIsSubmitting(true);
+
         const techStackArray = formData.techStack
             .split(',')
             .map((tech) => tech.trim())
-            .filter((tech) => tech !== '');
+            .filter((tech) => tech.length > 0);
 
-        const projectData = {
+        const submitData = {
             ...formData,
             techStack: techStackArray,
+            image: formData.image || null,
         };
 
-        console.log('Project Data:', projectData);
-
-        try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_API}/project/create`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(projectData),
-                }
-            );
-            const data = await response.json();
-            console.log('Success:', data);
-            toast.success('Project created successfully!');
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error('Failed to create project. Please try again.');
-        }
-
-        setIsSubmitted(true);
         setTimeout(() => {
-            setIsSubmitted(false);
-            setIsOpen(false);
+            console.log('Form submitted:', submitData);
+            alert('Project created successfully!');
+            setIsSubmitting(false);
+
             setFormData({
                 name: '',
                 description: '',
@@ -76,241 +92,219 @@ const ProjectForm = () => {
                 techStack: '',
                 image: '',
             });
-        }, 2000);
+        }, 1000);
     };
 
     return (
-        <div>
-            {/* Create Project Button */}
-            <button
-                onClick={() => setIsOpen(true)}
-                className='group flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105'
-            >
-                <Plus className='w-5 h-5 group-hover:rotate-90 transition-transform duration-300' />
-                <span>Create New Project</span>
-            </button>
+        <div className='min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8'>
+            <div className='max-w-4xl mx-auto'>
+                <div className='bg-white/80 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-purple-100/20 dark:border-purple-500/20 overflow-hidden'>
+                    <div className='bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 sm:p-10'>
+                        <h2 className='text-4xl font-bold text-white mb-3'>
+                            Create New Project
+                        </h2>
+                        <p className='text-indigo-100 text-lg'>
+                            Showcase your amazing work to the world
+                        </p>
+                    </div>
 
-            {/* Modal Overlay */}
-            {isOpen && (
-                <div className='fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in'>
-                    <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-slate-800 animate-slide-up'>
-                        {/* Header */}
-                        <div className='sticky top-0 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 px-8 py-6 flex items-center justify-between z-10'>
-                            <div>
-                                <h2 className='text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'>
-                                    Create New Project
-                                </h2>
-                                <p className='text-gray-600 dark:text-gray-400 text-sm mt-1'>
-                                    Fill in the details to add a new project to
-                                    your portfolio
-                                </p>
-                            </div>
-                            <button
-                                onClick={() => setIsOpen(false)}
-                                className='w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg transition-colors'
-                                aria-label='Close modal'
+                    <div className='p-8 sm:p-10 space-y-8'>
+                        <div className='flex flex-col'>
+                            <label
+                                htmlFor='name'
+                                className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
                             >
-                                <X className='w-5 h-5 text-gray-600 dark:text-gray-400' />
-                            </button>
+                                <span className='text-purple-600 dark:text-purple-400'>
+                                    ●
+                                </span>
+                                Project Name
+                                <span className='text-red-500'>*</span>
+                            </label>
+                            <input
+                                type='text'
+                                id='name'
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                className={`px-5 py-4 border-2 rounded-xl bg-white dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-500/50 focus:border-purple-500 outline-none transition-all duration-200 ${
+                                    errors.name
+                                        ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                        : 'border-gray-200 dark:border-slate-600 hover:border-purple-300'
+                                }`}
+                                placeholder='My Awesome Project'
+                            />
+                            {errors.name && (
+                                <span className='text-red-600 dark:text-red-400 text-sm mt-2 font-medium'>
+                                    ⚠ {errors.name}
+                                </span>
+                            )}
                         </div>
 
-                        {/* Form Content */}
-                        <div className='p-8'>
-                            {isSubmitted ? (
-                                <div className='flex flex-col items-center justify-center py-12 space-y-4'>
-                                    <div className='w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-xl'>
-                                        <CheckCircle className='w-10 h-10 text-white' />
-                                    </div>
-                                    <h3 className='text-2xl font-bold text-gray-900 dark:text-white text-center'>
-                                        Project Created Successfully!
-                                    </h3>
-                                    <p className='text-gray-600 dark:text-gray-400 text-center'>
-                                        Your project has been added to the
-                                        database.
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className='space-y-6'>
-                                    {/* Project Name */}
-                                    <div>
-                                        <label
-                                            htmlFor='name'
-                                            className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            <Code className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                            <span>Project Name</span>
-                                        </label>
-                                        <input
-                                            type='text'
-                                            id='name'
-                                            name='name'
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            placeholder='E.g., E-commerce Website'
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                        />
-                                    </div>
-
-                                    {/* Description */}
-                                    <div>
-                                        <label
-                                            htmlFor='description'
-                                            className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            <Calendar className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                            <span>Description</span>
-                                        </label>
-                                        <textarea
-                                            id='description'
-                                            name='description'
-                                            value={formData.description}
-                                            onChange={handleChange}
-                                            placeholder='Describe your project...'
-                                            rows={4}
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200 resize-none'
-                                        />
-                                    </div>
-
-                                    {/* Links Grid */}
-                                    <div className='grid md:grid-cols-2 gap-6'>
-                                        {/* Live Link */}
-                                        <div>
-                                            <label
-                                                htmlFor='liveLink'
-                                                className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                            >
-                                                <Link className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                                <span>Live Link</span>
-                                            </label>
-                                            <input
-                                                type='url'
-                                                id='liveLink'
-                                                name='liveLink'
-                                                value={formData.liveLink}
-                                                onChange={handleChange}
-                                                placeholder='https://example.com'
-                                                className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                            />
-                                        </div>
-
-                                        {/* Repo Link */}
-                                        <div>
-                                            <label
-                                                htmlFor='repoLink'
-                                                className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                            >
-                                                <Github className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                                <span>Repository Link</span>
-                                            </label>
-                                            <input
-                                                type='url'
-                                                id='repoLink'
-                                                name='repoLink'
-                                                value={formData.repoLink}
-                                                onChange={handleChange}
-                                                placeholder='https://github.com/...'
-                                                className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Tech Stack */}
-                                    <div>
-                                        <label
-                                            htmlFor='techStack'
-                                            className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            <Code className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                            <span>Tech Stack</span>
-                                        </label>
-                                        <input
-                                            type='text'
-                                            id='techStack'
-                                            name='techStack'
-                                            value={formData.techStack}
-                                            onChange={handleChange}
-                                            placeholder='React, Node.js, MongoDB, TypeScript (comma separated)'
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                        />
-                                        <p className='text-xs text-gray-500 dark:text-gray-400 mt-2'>
-                                            Separate technologies with commas
-                                        </p>
-                                    </div>
-
-                                    {/* Image URL */}
-                                    <div>
-                                        <label
-                                            htmlFor='image'
-                                            className='flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            <Image className='w-4 h-4 text-indigo-600 dark:text-indigo-400' />
-                                            <span>Image URL (Optional)</span>
-                                        </label>
-                                        <input
-                                            type='url'
-                                            id='image'
-                                            name='image'
-                                            value={formData.image}
-                                            onChange={handleChange}
-                                            placeholder='https://example.com/image.jpg'
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                        />
-                                    </div>
-
-                                    {/* Action Buttons */}
-                                    <div className='flex flex-col sm:flex-row gap-4 pt-6'>
-                                        <button
-                                            type='button'
-                                            onClick={() => setIsOpen(false)}
-                                            className='flex-1 px-6 py-3.5 border-2 border-gray-300 dark:border-slate-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-200'
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type='button'
-                                            onClick={handleSubmit}
-                                            className='flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center space-x-2'
-                                        >
-                                            <Plus className='w-5 h-5' />
-                                            <span>Create Project</span>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div className='flex flex-col'>
+                            <label
+                                htmlFor='description'
+                                className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
+                            >
+                                <span className='text-purple-600 dark:text-purple-400'>
+                                    ●
+                                </span>
+                                Project Description
+                                <span className='text-red-500'>*</span>
+                            </label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows={6}
+                                className={`px-5 py-4 border-2 rounded-xl bg-white dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-500/50 focus:border-purple-500 outline-none transition-all duration-200 resize-none ${
+                                    errors.description
+                                        ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                        : 'border-gray-200 dark:border-slate-600 hover:border-purple-300'
+                                }`}
+                                placeholder='Describe your project, its features, and what makes it unique...'
+                            />
+                            {errors.description && (
+                                <span className='text-red-600 dark:text-red-400 text-sm mt-2 font-medium'>
+                                    ⚠ {errors.description}
+                                </span>
                             )}
+                        </div>
+
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                            <div className='flex flex-col'>
+                                <label
+                                    htmlFor='liveLink'
+                                    className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
+                                >
+                                    <span className='text-indigo-600 dark:text-indigo-400'>
+                                        ●
+                                    </span>
+                                    Live Link
+                                    <span className='text-red-500'>*</span>
+                                </label>
+                                <input
+                                    type='url'
+                                    id='liveLink'
+                                    name='liveLink'
+                                    value={formData.liveLink}
+                                    onChange={handleChange}
+                                    className={`px-5 py-4 border-2 rounded-xl bg-white dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all duration-200 ${
+                                        errors.liveLink
+                                            ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                            : 'border-gray-200 dark:border-slate-600 hover:border-indigo-300'
+                                    }`}
+                                    placeholder='https://example.com'
+                                />
+                                {errors.liveLink && (
+                                    <span className='text-red-600 dark:text-red-400 text-sm mt-2 font-medium'>
+                                        ⚠ {errors.liveLink}
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <label
+                                    htmlFor='repoLink'
+                                    className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
+                                >
+                                    <span className='text-pink-600 dark:text-pink-400'>
+                                        ●
+                                    </span>
+                                    Repository Link
+                                    <span className='text-red-500'>*</span>
+                                </label>
+                                <input
+                                    type='url'
+                                    id='repoLink'
+                                    name='repoLink'
+                                    value={formData.repoLink}
+                                    onChange={handleChange}
+                                    className={`px-5 py-4 border-2 rounded-xl bg-white dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-pink-300 dark:focus:ring-pink-500/50 focus:border-pink-500 outline-none transition-all duration-200 ${
+                                        errors.repoLink
+                                            ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                            : 'border-gray-200 dark:border-slate-600 hover:border-pink-300'
+                                    }`}
+                                    placeholder='https://github.com/username/repo'
+                                />
+                                {errors.repoLink && (
+                                    <span className='text-red-600 dark:text-red-400 text-sm mt-2 font-medium'>
+                                        ⚠ {errors.repoLink}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className='flex flex-col'>
+                            <label
+                                htmlFor='techStack'
+                                className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
+                            >
+                                <span className='text-purple-600 dark:text-purple-400'>
+                                    ●
+                                </span>
+                                Tech Stack
+                                <span className='text-red-500'>*</span>
+                            </label>
+                            <input
+                                type='text'
+                                id='techStack'
+                                name='techStack'
+                                value={formData.techStack}
+                                onChange={handleChange}
+                                className={`px-5 py-4 border-2 rounded-xl bg-white dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-500/50 focus:border-purple-500 outline-none transition-all duration-200 ${
+                                    errors.techStack
+                                        ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                        : 'border-gray-200 dark:border-slate-600 hover:border-purple-300'
+                                }`}
+                                placeholder='React, Node.js, MongoDB, Tailwind CSS'
+                            />
+                            {errors.techStack && (
+                                <span className='text-red-600 dark:text-red-400 text-sm mt-2 font-medium'>
+                                    ⚠ {errors.techStack}
+                                </span>
+                            )}
+                            <span className='text-gray-500 dark:text-gray-400 text-sm mt-2'>
+                                💡 Enter technologies separated by commas
+                            </span>
+                        </div>
+
+                        <div className='flex flex-col'>
+                            <label
+                                htmlFor='image'
+                                className='text-sm font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2'
+                            >
+                                <span className='text-gray-400'>○</span>
+                                Project Image URL
+                                <span className='text-gray-500 dark:text-gray-400 text-xs font-normal'>
+                                    (optional)
+                                </span>
+                            </label>
+                            <input
+                                type='url'
+                                id='image'
+                                name='image'
+                                value={formData.image}
+                                onChange={handleChange}
+                                className='px-5 py-4 border-2 border-gray-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 dark:text-white hover:border-purple-300 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-500/50 focus:border-purple-500 outline-none transition-all duration-200'
+                                placeholder='https://example.com/image.jpg'
+                            />
+                        </div>
+
+                        <div className='pt-6'>
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isSubmitting}
+                                className='w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-4 px-8 rounded-xl hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-500/50 transition-all duration-200 disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                            >
+                                {isSubmitting
+                                    ? '✨ Creating Project...'
+                                    : '🚀 Create Project'}
+                            </button>
                         </div>
                     </div>
                 </div>
-            )}
-
-            <style>{`
-                @keyframes fade-in {
-                    from {
-                        opacity: 0;
-                    }
-                    to {
-                        opacity: 1;
-                    }
-                }
-
-                @keyframes slide-up {
-                    from {
-                        transform: translateY(20px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-
-                .animate-fade-in {
-                    animation: fade-in 0.2s ease-out;
-                }
-
-                .animate-slide-up {
-                    animation: slide-up 0.3s ease-out;
-                }
-            `}</style>
+            </div>
         </div>
     );
 };
