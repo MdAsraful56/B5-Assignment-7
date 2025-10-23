@@ -1,5 +1,5 @@
 // 'use client';
-import { Menu } from 'lucide-react';
+import { Code, Menu } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -35,14 +35,20 @@ export async function Navbar() {
                     href='/'
                     className='flex items-center gap-2 font-semibold'
                 >
-                    <Image
+                    <div className='w-5 h-5 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center'>
+                        <Code className='w-5 h-5 text-white' />
+                    </div>
+                    <h3 className='text-base font-bold text-white'>
+                        Md Asraful
+                    </h3>
+                    {/* <Image
                         src={logo}
                         alt='Logo'
                         className='h-7 w-7 dark:invert'
                     />
                     <span className='text-lg font-bold tracking-tight'>
                         MyWebsite
-                    </span>
+                    </span> */}
                 </Link>
 
                 {/* Desktop Menu */}

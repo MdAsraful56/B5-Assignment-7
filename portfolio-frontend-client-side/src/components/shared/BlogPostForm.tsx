@@ -14,7 +14,7 @@ const BlogPostForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleChange = (e) => {
+    const handleChange = (e: { target: { name: string; value: unknown } }) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
@@ -51,7 +51,7 @@ const BlogPostForm = () => {
         return newErrors;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         const newErrors = validateForm();
@@ -87,7 +87,7 @@ const BlogPostForm = () => {
             }
         );
         const result = await res.json();
-        if (result?.id) {
+        if (result?.data?.id) {
             toast.success('Blog post created successfully!');
             setFormData({
                 title: '',

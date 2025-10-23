@@ -43,10 +43,6 @@ const Contact = () => {
 
             const data = await response.json();
 
-            if (data?.id) {
-                console.log(data.id);
-            }
-
             if (response.ok) {
                 toast.success('Message sent successfully.');
                 setFormData({ name: '', email: '', message: '' });

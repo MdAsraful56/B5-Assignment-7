@@ -17,8 +17,8 @@ const AllBlogsPage = async () => {
     console.log(blogs);
     return (
         <div className='py-30 px-4 max-w-7xl mx-auto'>
-            <h2 className='text-center text-4xl'>All Blogs</h2>
-            <div className='grid grid-cols-3 gap-4 mx-auto max-w-6xl my-5'>
+            <h2 className='text-center text-4xl mb-8'>All Blogs</h2>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-6xl my-5 auto-rows-fr'>
                 {blogs.length === 0 ? (
                     <p className='text-center col-span-3'>No blogs found.</p>
                 ) : (
