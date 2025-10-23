@@ -1,6 +1,6 @@
 'use client';
 import Lottie from 'lottie-react';
-import loadingData from '../../public/assetes/loading.json';
+import loadingData from '../../../public/assetes/loading.json';
 
 const loading = () => {
     return (

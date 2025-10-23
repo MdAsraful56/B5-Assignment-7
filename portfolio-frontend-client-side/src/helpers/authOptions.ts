@@ -153,7 +153,7 @@ export const authOptions: NextAuthOptions = {
 
                 if (!response.ok) {
                     if (response.status === 409 || response.status === 400) {
-                        console.log('User already exists');
+                        // console.log('User already exists');
                         // ⭐ Existing user - backend থেকে fresh data fetch করুন
                         const userData = await fetchUserFromBackend(
                             user.email!

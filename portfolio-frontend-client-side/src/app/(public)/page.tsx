@@ -1,9 +1,16 @@
 import { ArrowRight } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import BlogCard from '../../components/modules/Blogs/BlogCard';
 import Contact from '../../components/modules/Contact/Contact';
 import Hero from '../../components/modules/Home/Hero';
 import ProjectCard from '../../components/modules/Project/ProjectCard';
+
+export const metadata: Metadata = {
+    title: 'Home - Portfolio',
+    description:
+        'Welcome to my portfolio website. Explore my latest blogs and projects in web development.',
+};
 
 interface ProjectType {
     id: number;
@@ -38,9 +45,12 @@ export default async function HomePage() {
     return (
         <div>
             <Hero />
-            <div className='py-10 border-2 rounded-2xl border-dashed border-gray-300 dark:border-slate-700 '>
-                <h2 className='text-center text-4xl mb-8'>Latest Blogs</h2>
+            <div className='font-raleway py-10 mb-10 p-4 border-2 rounded-2xl border-dashed border-gray-300 dark:border-slate-700 '>
+                <h2 className='font-schoolbell text-center text-4xl mb-8'>
+                    Latest Blogs
+                </h2>
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 max-w-6xl mx-auto my-5'>
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {blogs.slice(0, 3).map((blog: any) => (
                         <BlogCard key={blog?.id} post={blog} />
                     ))}
@@ -56,8 +66,10 @@ export default async function HomePage() {
                     </button>
                 </Link>
             </div>
-            <div className='py-10 border-2 rounded-2xl border-dotted border-gray-300 dark:border-slate-700 '>
-                <h2 className='text-center text-4xl mb-8'>New Projects</h2>
+            <div className='py-10 mb-10 p-4 border-2 rounded-2xl border-dotted border-gray-300 dark:border-slate-700 '>
+                <h2 className='font-schoolbell text-center text-4xl mb-8'>
+                    New Projects
+                </h2>
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 max-w-6xl mx-auto my-5'>
                     {projects.slice(0, 3).map((project) => (
                         <ProjectCard key={project.id} project={project} />
@@ -68,7 +80,7 @@ export default async function HomePage() {
                     className='text-center flex items-center justify-center mt-6'
                 >
                     <button className='relative px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 overflow-hidden'>
-                        <span className='relative z-10'>See All Projects</span>
+                        <span className=' relative z-10'>See All Projects</span>
                         <ArrowRight className='w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 relative z-10' />
                         <div className='absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
                     </button>

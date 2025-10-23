@@ -62,9 +62,9 @@ const Footer = () => {
     ];
 
     return (
-        <footer className='relative mt-10 bg-white dark:bg-slate-900 text-gray-800 dark:text-white transition-colors duration-300'>
+        <footer className='font-inter relative mt-10 bg-white dark:bg-slate-900 text-gray-800 dark:text-white transition-colors duration-300'>
             {/* Decorative Wave */}
-            <div className='absolute top-0 left-0 w-full overflow-hidden leading-none'>
+            <div className='font-inter absolute top-0 left-0 w-full overflow-hidden leading-none'>
                 <svg
                     className='relative block w-full h-12'
                     xmlns='http://www.w3.org/2000/svg'

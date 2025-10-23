@@ -32,6 +32,6 @@ export const login = async (data: { email: string; password: string }) => {
         console.error('Login Failed', await res.text());
     }
     const result = await res.json();
-    console.log('Login Result:', result);
+    // console.log('Login Result:', result);
     return result;
 };

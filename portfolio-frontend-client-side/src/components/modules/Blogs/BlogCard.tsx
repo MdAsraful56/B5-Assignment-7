@@ -26,7 +26,7 @@ interface BlogCardProps {
 const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
     return (
         <Link href={`/blog/${post.id}`} className='h-full block'>
-            <div className='border rounded-lg shadow-md bg-white hover:shadow-lg transition h-full flex flex-col'>
+            <div className='border rounded-lg shadow-md bg-white dark:bg-gray-800 hover:shadow-lg transition h-full flex flex-col'>
                 {/* Image Section - Fixed Height */}
                 {post.thumbnail ? (
                     <img
@@ -37,7 +37,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                         height={200}
                     />
                 ) : (
-                    <div className='w-full h-48 bg-gray-100 flex items-center justify-center rounded-t-lg text-gray-400'>
+                    <div className='w-full h-48 bg-gray-100 dark:bg-gray-600 flex items-center justify-center rounded-t-lg text-gray-400'>
                         No Image Available
                     </div>
                 )}
@@ -50,7 +50,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                     </h2>
 
                     {/* Content - Fixed 3 lines */}
-                    <p className='text-gray-700 mb-3 line-clamp-3 flex-grow'>
+                    <p className='text-gray-700 dark:text-gray-300 mb-3 line-clamp-3 flex-grow'>
                         {post.content}
                     </p>
 
@@ -72,7 +72,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                     </div>
 
                     {/* Footer - Always at bottom */}
-                    <div className='text-sm text-gray-500 flex justify-between items-center mt-auto pt-2 border-t'>
+                    <div className='text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center mt-auto pt-2 border-t'>
                         <span className='truncate mr-2'>
                             By {post.author.name}
                         </span>

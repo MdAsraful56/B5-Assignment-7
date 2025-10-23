@@ -1,9 +1,15 @@
 import { authOptions } from '@/helpers/authOptions';
+import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
+
+export const metadata: Metadata = {
+    title: 'Dashboard - Portfolio',
+    description: 'Access your dashboard to view your portfolio and projects.',
+};
 
 const DashboardPage = async () => {
     const session = await getServerSession(authOptions);
-    console.log(session);
+    // console.log(session);
 
     // Get current hour for greeting
     const getGreeting = () => {
@@ -20,6 +26,7 @@ const DashboardPage = async () => {
                 <div className='flex items-center gap-6'>
                     {session?.user?.image ? (
                         <div className='relative'>
+                            {/* // eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={session.user.image}
                                 alt='Profile'

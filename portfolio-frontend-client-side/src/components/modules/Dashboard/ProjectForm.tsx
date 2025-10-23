@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const ProjectForm = () => {
@@ -16,7 +16,9 @@ const ProjectForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleChange = (e) => {
+    const handleChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
@@ -57,7 +59,7 @@ const ProjectForm = () => {
         return newErrors;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         const newErrors = validateForm();
@@ -91,7 +93,7 @@ const ProjectForm = () => {
             }
         );
         const result = await res.json();
-        console.log(result);
+        // console.log(result);
 
         if (result?.data?.id) {
             toast.success('Project created successfully!');

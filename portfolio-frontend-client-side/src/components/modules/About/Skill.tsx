@@ -40,8 +40,8 @@ const skillCategories = {
 
 const Skill = () => {
     return (
-        <section className='py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/50 rounded-2xl shadow-lg'>
-            <div className='max-w-7xl mx-auto'>
+        <section className='font-jetbrains-mono py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/50 rounded-2xl shadow-lg'>
+            <div className='font-jetbrains-mono max-w-7xl mx-auto'>
                 {/* Header */}
                 <div className='text-center mb-16'>
                     <div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-6 shadow-lg'>

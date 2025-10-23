@@ -32,7 +32,7 @@ const RegisterForm = () => {
     // Handle form submit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('formData', formData);
+        // console.log('formData', formData);
         try {
             const res = await register(formData);
             // console.log(res);

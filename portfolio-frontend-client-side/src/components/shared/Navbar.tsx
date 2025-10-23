@@ -28,8 +28,8 @@ export async function Navbar() {
     const session = await getServerSession(authOptions);
 
     return (
-        <header className='sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md'>
-            <div className='container flex h-16 items-center justify-between'>
+        <header className='font-inter sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md'>
+            <div className='font-inter container flex h-16 items-center justify-between'>
                 {/* Left: Logo / Name */}
                 <Link
                     href='/'

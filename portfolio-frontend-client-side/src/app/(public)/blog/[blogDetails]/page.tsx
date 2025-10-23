@@ -1,5 +1,12 @@
 import { Calendar, Eye, User } from 'lucide-react';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+    title: 'Blog Details | Web Development Articles & Tutorials',
+    description:
+        'Learn more about this blog post, its author, and related topics.',
+};
 
 const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
     const { blogDetails } = await params;
@@ -33,6 +40,7 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                 <div className='bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden'>
                     {/* Thumbnail Image */}
                     <div className='w-full h-96 overflow-hidden'>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={thumbnailUrl}
                             alt={blogData.title}

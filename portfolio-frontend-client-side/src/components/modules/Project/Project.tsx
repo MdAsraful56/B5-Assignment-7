@@ -19,7 +19,7 @@ const Project = async () => {
     });
 
     const data = await res.json();
-    console.log('Project Data:', data);
+    // console.log('Project Data:', data);
 
     const projects: ProjectType[] = data.data || [];
 

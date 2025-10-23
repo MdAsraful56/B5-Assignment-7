@@ -154,7 +154,7 @@ const Contact = () => {
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             className='group w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-800 dark:to-slate-700 rounded-xl flex items-center justify-center hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-md hover:shadow-xl hover:scale-110'
-                                            aria-label={social.label}
+                                            aria-label={social.name}
                                         >
                                             <Icon className='w-6 h-6 text-gray-700 dark:text-gray-300 group-hover:text-white transition-colors' />
                                         </a>

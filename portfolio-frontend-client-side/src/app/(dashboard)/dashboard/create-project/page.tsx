@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import ProjectForm from '../../../../components/modules/Dashboard/ProjectForm';
+
+export const metadata: Metadata = {
+    title: 'Create Project - Dashboard - Portfolio',
+    description: 'Create and manage your projects within the dashboard.',
+};
 
 const CreateProjectPage = () => {
     return (

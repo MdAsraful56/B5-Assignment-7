@@ -1,7 +1,13 @@
 'use client';
 
 import { ArrowLeft, Home } from 'lucide-react';
+import { Metadata } from 'next';
 import { useEffect, useState } from 'react';
+
+export const metadata: Metadata = {
+    title: 'Not Found - Dashboard - Portfolio',
+    description: 'The requested page could not be found.',
+};
 
 const NotFound = () => {
     const [isVisible, setIsVisible] = useState(false);
