@@ -1,4 +1,4 @@
-import BlogPostForm from '../../../../components/shared/BlogPostForm';
+import BlogPostForm from '../../../../components/modules/Dashboard/BlogPostForm';
 
 const createBlogPage = () => {
     return (

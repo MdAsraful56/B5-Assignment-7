@@ -1,4 +1,4 @@
-import ProjectForm from '../../../../components/shared/project/ProjectForm';
+import ProjectForm from '../../../../components/modules/Dashboard/ProjectForm';
 
 const CreateProjectPage = () => {
     return (

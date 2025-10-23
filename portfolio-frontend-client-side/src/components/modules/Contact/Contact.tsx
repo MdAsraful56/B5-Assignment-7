@@ -1,14 +1,16 @@
 'use client';
 
 import {
+    Facebook,
     Github,
     Globe,
+    Instagram,
     Linkedin,
     Mail,
     MapPin,
     Phone,
     Send,
-    Twitter,
+    Youtube,
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -65,18 +67,28 @@ const Contact = () => {
     const socialLinks = [
         {
             icon: Linkedin,
-            href: 'https://linkedin.com/in/yourprofile',
-            label: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/asraful4/',
+            name: 'LinkedIn',
         },
         {
             icon: Github,
-            href: 'https://github.com/yourprofile',
-            label: 'GitHub',
+            href: 'https://github.com/MdAsraful56',
+            name: 'GitHub',
         },
         {
-            icon: Twitter,
-            href: 'https://twitter.com/yourprofile',
-            label: 'Twitter',
+            icon: Facebook,
+            href: 'https://www.facebook.com/mdasraful4',
+            name: 'Facebook',
+        },
+        {
+            icon: Instagram,
+            href: 'https://www.instagram.com/ashraful_islam_asrf_56/',
+            name: 'Instagram',
+        },
+        {
+            icon: Youtube,
+            href: 'https://www.youtube.com/@MdAsraful-bf6te',
+            name: 'YouTube',
         },
     ];
 

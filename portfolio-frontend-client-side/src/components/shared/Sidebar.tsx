@@ -98,7 +98,7 @@ export default function Sidebar() {
                         </Link>
                     )}
                 </nav>
-                <div className=''>
+                <div className='p-4 border-t border-gray-200 dark:border-gray-800 text-center'>
                     <ModeToggle />
                 </div>
 

@@ -3,7 +3,14 @@
 import { Typewriter } from 'react-simple-typewriter';
 
 const TextWrite = () => {
-    const text = ['a Developer', 'a Designer', 'a Creator'];
+    // const text = ['a Developer', 'a Designer', 'a Creator'];
+    const text = [
+        'a Full Stack Developer',
+        'a React Specialist',
+        'a Next.js Expert',
+        'a Backend Engineer',
+        'a Database Architect',
+    ];
 
     return (
         <div className='pl-10'>

@@ -38,7 +38,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                     />
                 ) : (
                     <div className='w-full h-48 bg-gray-100 flex items-center justify-center rounded-t-lg text-gray-400'>
-                        No image
+                        No Image Available
                     </div>
                 )}
 

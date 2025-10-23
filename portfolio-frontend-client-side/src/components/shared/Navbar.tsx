@@ -38,7 +38,7 @@ export async function Navbar() {
                     <div className='w-5 h-5 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center'>
                         <Code className='w-5 h-5 text-white' />
                     </div>
-                    <h3 className='text-base font-bold text-white'>
+                    <h3 className='text-base font-bold dark:text-white text-gray-900'>
                         Md Asraful
                     </h3>
                     {/* <Image

@@ -2,7 +2,7 @@ import { Calendar, Eye, User } from 'lucide-react';
 import Image from 'next/image';
 
 const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
-    const { blogDetails } = params;
+    const { blogDetails } = await params;
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API}/post/${blogDetails}`,
         {

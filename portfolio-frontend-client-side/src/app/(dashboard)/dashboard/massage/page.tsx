@@ -1,4 +1,4 @@
-import ContactCard from '../../../../components/shared/ContactCard';
+import ContactCard from '../../../../components/modules/Contact/ContactCard';
 
 const contactPage = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/contact/all`);
