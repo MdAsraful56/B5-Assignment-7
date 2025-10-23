@@ -17,8 +17,16 @@ const UserLogin = catchAsync(async (req: Request, res: Response) => {
         );
 
         // Create tokens
+        // ensure nullable fields are converted to undefined to satisfy Partial<IUser>
+        const safeUser = {
+            ...result,
+            picture: result.picture ?? undefined,
+            phone: result.phone ?? undefined,
+            provider: result.provider ?? undefined,
+        };
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const tokens = createUserTokens(result);
+        // cast to any to avoid enum type mismatch between Role and UserRole
+        const tokens = createUserTokens(safeUser as any);
 
         // Set cookies
         setAuthCookies(res, tokens);
@@ -122,7 +130,7 @@ const ResetPassword = catchAsync(
         const oldPassword = req.body.oldPassword;
         const newPassword = req.body.newPassword;
         const decodedToken = req.user;
-        console.log(decodedToken);
+        // console.log(decodedToken);
 
         if (!decodedToken) {
             throw new AppError(
@@ -145,7 +153,7 @@ const ResetPassword = catchAsync(
 const GetLoggedInUser = catchAsync(
     async (req: Request & { user?: JwtPayload }, res: Response) => {
         const user = req.user;
-        console.log(user);
+        // console.log(user);
 
         if (!user) {
             throw new AppError(httpStatus.UNAUTHORIZED, 'User not logged in');

@@ -7,6 +7,24 @@ export const metadata: Metadata = {
         'Browse all blog posts on web development, Next.js, React, and more. Stay updated with the latest tutorials and articles.',
 };
 
+interface Author {
+    id: number;
+    name: string;
+    email: string;
+    picture?: string | null;
+}
+
+interface BlogPost {
+    id: number;
+    title: string;
+    content: string;
+    thumbnail?: string | null;
+    tags: string[];
+    author: Author;
+    createdAt: string;
+    views: number;
+}
+
 const AllBlogsPage = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post/all`, {
         cache: 'no-store',
@@ -22,7 +40,9 @@ const AllBlogsPage = async () => {
                 {blogs.length === 0 ? (
                     <p className='text-center col-span-3'>No blogs found.</p>
                 ) : (
-                    blogs.map((post) => <BlogCard key={post.id} post={post} />)
+                    blogs.map((post: { id: number; post: BlogPost }) => (
+                        <BlogCard key={post.id} post={post.post} />
+                    ))
                 )}
             </div>
         </div>

@@ -1,8 +1,6 @@
-'use client';
-
-import { ArrowLeft, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { Metadata } from 'next';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Not Found - Dashboard - Portfolio',
@@ -10,21 +8,9 @@ export const metadata: Metadata = {
 };
 
 const NotFound = () => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        setIsVisible(true);
-    }, []);
-
     return (
         <div className='min-h-screen flex items-center justify-center px-4'>
-            <div
-                className={`text-center transition-all duration-500 ${
-                    isVisible
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 translate-y-4'
-                }`}
-            >
+            <div className='text-center'>
                 {/* 404 Number */}
                 <h1 className='text-8xl md:text-9xl font-bold mb-4'>
                     <span className='bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent'>
@@ -37,23 +23,21 @@ const NotFound = () => {
                     Page Not Found
                 </h2>
 
+                {/* Description */}
+                <p className='text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto'>
+                    Sorry, we couldn&apos;t find the page you&apos;re looking
+                    for.
+                </p>
+
                 {/* Buttons */}
                 <div className='flex flex-col sm:flex-row gap-3 justify-center'>
-                    <button
-                        onClick={() => window.history.back()}
-                        className='flex items-center justify-center gap-2 px-5 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
-                    >
-                        <ArrowLeft className='w-4 h-4' />
-                        Go Back
-                    </button>
-
-                    <button
-                        onClick={() => (window.location.href = '/')}
+                    <Link
+                        href='/'
                         className='flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors'
                     >
                         <Home className='w-4 h-4' />
-                        Home
-                    </button>
+                        Go to Home
+                    </Link>
                 </div>
             </div>
         </div>

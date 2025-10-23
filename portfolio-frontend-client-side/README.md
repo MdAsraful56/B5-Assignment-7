@@ -247,5 +247,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🔗 Links
 
--   [Backend Repository](https://github.com/yourusername/backend)
--   [Live Demo](https://your-demo-url.com)
+-   [Backend Repository](https://github.com/MdAsraful56/B5-Assignment-7/tree/main/portfolio-backend-server-side)
+-   [Live Demo](https://portfolio-frontend-client-side.vercel.app)

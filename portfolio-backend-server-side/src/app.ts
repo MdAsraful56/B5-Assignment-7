@@ -17,7 +17,7 @@ app.use(cookieParser()); // Parse Cookie header and populate req.cookies
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: 'https://portfolio-frontend-client-side.vercel.app',
         credentials: true,
     })
 );

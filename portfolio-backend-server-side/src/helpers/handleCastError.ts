@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-
-const handleCastError = (err: mongoose.Error.CastError) => {
+const handleCastError = (err: { path: any; value: any }) => {
     return {
         statusCode: 400,
         message: `Invalid ${err.path}: ${err.value}. Please provide a valid ${err.path}.`,

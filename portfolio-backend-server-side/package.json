@@ -5,12 +5,17 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "tsx watch src/server.ts"
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "prisma:generate": "prisma generate",
+        "prisma:reset": "prisma migrate reset --force",
+        "prisma:migrate": "prisma migrate dev",
+        "postinstall": "prisma generate"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "type": "module",
     "devDependencies": {
         "@types/compression": "^1.8.1",
         "@types/cookie-parser": "^1.4.9",

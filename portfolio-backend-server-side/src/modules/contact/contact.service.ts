@@ -4,11 +4,11 @@ import { prisma } from '../../config/db';
 const createContactPost = async (
     payload: Prisma.ContactCreateInput
 ): Promise<Contact> => {
-    console.log(payload, 'payload from service');
+    // console.log(payload, 'payload from service');
     const contact = await prisma.contact.create({
         data: payload,
     });
-    console.log(contact, 'contact from service');
+    // console.log(contact, 'contact from service');
     return contact;
 };
 

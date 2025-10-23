@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-
-const handleValidationError = (err: mongoose.Error.ValidationError) => {
+const handleValidationError = (err: {
+    errors: { [s: string]: unknown } | ArrayLike<unknown>;
+}) => {
     const errorSources: { path: string; message: string }[] = [];
 
     const errors = Object.values(err.errors);

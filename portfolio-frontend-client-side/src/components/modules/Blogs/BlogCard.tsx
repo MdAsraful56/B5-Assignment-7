@@ -29,6 +29,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
             <div className='border rounded-lg shadow-md bg-white dark:bg-gray-800 hover:shadow-lg transition h-full flex flex-col'>
                 {/* Image Section - Fixed Height */}
                 {post.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                         src={post.thumbnail}
                         alt={post.title}
