@@ -87,6 +87,16 @@ export default function Sidebar() {
                             Create Project
                         </Link>
                     )}
+                    {userRole === 'ADMIN' && (
+                        <Link
+                            href='/dashboard/massage'
+                            onClick={closeSidebar}
+                            className='flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white transition-colors'
+                        >
+                            <PlusCircle className='h-4 w-4' />
+                            Massage
+                        </Link>
+                    )}
                 </nav>
                 <div className=''>
                     <ModeToggle />

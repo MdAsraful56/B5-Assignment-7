@@ -1,7 +1,6 @@
 'use client';
 
 import {
-    CheckCircle,
     Github,
     Globe,
     Linkedin,
@@ -20,7 +19,6 @@ const Contact = () => {
         email: '',
         message: '',
     });
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,7 +28,6 @@ const Contact = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Contact Form Submitted:', formData);
 
         try {
             const response = await fetch(
@@ -45,18 +42,21 @@ const Contact = () => {
             );
 
             const data = await response.json();
-            toast.success('Message sent successfully!');
-            // console.log('Success:', data);
-        } catch (error) {
-            // console.error('Error:', error);
-            toast.error('Failed to send message. Please try again later.');
-        }
 
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData({ name: '', email: '', message: '' });
-        }, 3000);
+            if (data?.id) {
+                console.log(data.id);
+            }
+
+            if (response.ok) {
+                toast.success('Message sent successfully.');
+                setFormData({ name: '', email: '', message: '' });
+            } else {
+                toast.error(data?.message || 'Failed to send message.');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred while sending your message.');
+        }
     };
 
     const contactInfo = [
@@ -158,110 +158,77 @@ const Contact = () => {
 
                     {/* Contact Form */}
                     <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-gray-100 dark:border-slate-800'>
-                        {isSubmitted ? (
-                            <div className='flex flex-col items-center justify-center h-full space-y-4 py-12'>
-                                <div className='w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-xl'>
-                                    <CheckCircle className='w-10 h-10 text-white' />
-                                </div>
-                                <h3 className='text-2xl font-bold text-gray-900 dark:text-white text-center'>
-                                    Message Sent!
-                                </h3>
-                                <p className='text-gray-600 dark:text-gray-400 text-center'>
-                                    Thank you for reaching out. I&apos;ll get
-                                    back to you soon!
-                                </p>
-                            </div>
-                        ) : (
+                        <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
+                            Send a Message
+                        </h2>
+                        <p className='text-gray-600 dark:text-gray-400 mb-8'>
+                            Fill out the form below and I&apos;ll respond as
+                            soon as possible.
+                        </p>
+
+                        <form onSubmit={handleSubmit} className='space-y-6'>
                             <div>
-                                <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
-                                    Send a Message
-                                </h2>
-                                <p className='text-gray-600 dark:text-gray-400 mb-8'>
-                                    Fill out the form below and I&apos;ll
-                                    respond as soon as possible.
-                                </p>
-
-                                <div className='space-y-6'>
-                                    <div>
-                                        <label
-                                            htmlFor='name'
-                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            Full Name
-                                        </label>
-                                        <input
-                                            type='text'
-                                            id='name'
-                                            name='name'
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            placeholder='John Doe'
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor='email'
-                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            Email Address
-                                        </label>
-                                        <input
-                                            type='email'
-                                            id='email'
-                                            name='email'
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            placeholder='john@example.com'
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor='message'
-                                            className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
-                                        >
-                                            Your Message
-                                        </label>
-                                        <textarea
-                                            id='message'
-                                            name='message'
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            placeholder='Tell me about your project or just say hello...'
-                                            rows={5}
-                                            className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200 resize-none'
-                                        />
-                                    </div>
-
-                                    <button
-                                        type='button'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            console.log(
-                                                'Contact Form Submitted:',
-                                                formData
-                                            );
-                                            setIsSubmitted(true);
-                                            setTimeout(() => {
-                                                setIsSubmitted(false);
-                                                setFormData({
-                                                    name: '',
-                                                    email: '',
-                                                    message: '',
-                                                });
-                                            }, 3000);
-                                        }}
-                                        className='w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center space-x-2'
-                                    >
-                                        <span>Send Message</span>
-                                        <Send className='w-5 h-5' />
-                                    </button>
-                                </div>
+                                <label
+                                    htmlFor='name'
+                                    className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                >
+                                    Full Name
+                                </label>
+                                <input
+                                    type='text'
+                                    id='name'
+                                    name='name'
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    placeholder='John Doe'
+                                    className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
+                                />
                             </div>
-                        )}
+
+                            <div>
+                                <label
+                                    htmlFor='email'
+                                    className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                >
+                                    Email Address
+                                </label>
+                                <input
+                                    type='email'
+                                    id='email'
+                                    name='email'
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder='john@example.com'
+                                    className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200'
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor='message'
+                                    className='block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'
+                                >
+                                    Your Message
+                                </label>
+                                <textarea
+                                    id='message'
+                                    name='message'
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    placeholder='Tell me about your project or just say hello...'
+                                    rows={5}
+                                    className='w-full px-5 py-3.5 border-2 border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-200 resize-none'
+                                />
+                            </div>
+
+                            <button
+                                type='submit'
+                                className='w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center space-x-2'
+                            >
+                                <span>Send Message</span>
+                                <Send className='w-5 h-5' />
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
