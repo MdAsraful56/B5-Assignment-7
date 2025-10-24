@@ -18,8 +18,6 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 import { getServerSession } from 'next-auth';
-import Image from 'next/image';
-import logo from '../../../public/assetes/logo/logo (1).png';
 import { authOptions } from '../../helpers/authOptions';
 import { ModeToggle } from '../ModeToggle';
 
@@ -116,11 +114,11 @@ export async function Navbar() {
                                         href='/'
                                         className='flex items-center gap-2 font-semibold'
                                     >
-                                        <Image
+                                        {/* <Image
                                             src={logo}
                                             alt='Logo'
                                             className='h-7 w-7 dark:invert'
-                                        />
+                                        /> */}
                                         <span>Md Asraful</span>
                                     </Link>
                                 </SheetTitle>
@@ -129,7 +127,7 @@ export async function Navbar() {
                                 {[
                                     { title: 'Home', href: '/' },
                                     { title: 'Blog', href: '/blog' },
-                                    { title: 'Features', href: '/features' },
+                                    { title: 'Project', href: '/project' },
                                     { title: 'About', href: '/about' },
                                     { title: 'Dashboard', href: '/dashboard' },
                                 ].map((item) => (
