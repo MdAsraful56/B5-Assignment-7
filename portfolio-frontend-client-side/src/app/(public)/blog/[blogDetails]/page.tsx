@@ -30,7 +30,7 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
 
     // Default thumbnail if not available
     const thumbnailUrl =
-        blogData.thumbnail ||
+        blogData?.thumbnail ||
         'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80';
 
     return (
@@ -43,7 +43,7 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={thumbnailUrl}
-                            alt={blogData.title}
+                            alt={blogData?.title}
                             className='w-full h-full object-cover hover:scale-105 transition-transform duration-500'
                             width={800}
                             height={400}
@@ -57,10 +57,10 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                             {/* Author */}
                             <div className='flex items-center gap-3'>
                                 <div className='w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden'>
-                                    {blogData.author?.picture ? (
+                                    {blogData?.author?.picture ? (
                                         <Image
-                                            src={blogData.author.picture}
-                                            alt={blogData.author.name}
+                                            src={blogData?.author?.picture}
+                                            alt={blogData?.author?.name}
                                             className='w-full h-full object-cover'
                                             width={48}
                                             height={48}
@@ -71,10 +71,10 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                                 </div>
                                 <div>
                                     <p className='font-semibold text-gray-900 dark:text-gray-100'>
-                                        {blogData.author?.name}
+                                        {blogData?.author?.name}
                                     </p>
                                     <p className='text-sm text-gray-500 dark:text-gray-400'>
-                                        {blogData.author?.email}
+                                        {blogData?.author?.email}
                                     </p>
                                 </div>
                             </div>
@@ -84,20 +84,20 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
                                 <div className='flex items-center gap-1'>
                                     <Calendar className='w-4 h-4' />
                                     <span>
-                                        {formatDate(blogData.createdAt)}
+                                        {formatDate(blogData?.createdAt)}
                                     </span>
                                 </div>
                                 <div className='flex items-center gap-1'>
                                     <Eye className='w-4 h-4' />
-                                    <span>{blogData.views} views</span>
+                                    <span>{blogData?.views} views</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Tags */}
-                        {blogData.tags && blogData.tags.length > 0 && (
+                        {blogData?.tags && blogData?.tags.length > 0 && (
                             <div className='flex flex-wrap gap-2 mt-6'>
-                                {blogData.tags.map(
+                                {blogData?.tags.map(
                                     (tag: string, index: number) => (
                                         <span
                                             key={index}
@@ -112,20 +112,20 @@ const BlogDetails = async ({ params }: { params: { blogDetails: string } }) => {
 
                         {/* Title */}
                         <h1 className='text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mt-6 leading-tight'>
-                            {blogData.title}
+                            {blogData?.title}
                         </h1>
 
                         {/* Content */}
                         <div className='mt-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg whitespace-pre-wrap'>
-                            {blogData.content}
+                            {blogData?.content}
                         </div>
 
                         {/* Updated Info */}
-                        {blogData.updatedAt !== blogData.createdAt && (
+                        {blogData?.updatedAt !== blogData?.createdAt && (
                             <div className='mt-8 pt-6 border-t border-gray-200 dark:border-gray-700'>
                                 <p className='text-sm text-gray-500 dark:text-gray-400 italic'>
                                     Last updated:{' '}
-                                    {formatDate(blogData.updatedAt)}
+                                    {formatDate(blogData?.updatedAt)}
                                 </p>
                             </div>
                         )}

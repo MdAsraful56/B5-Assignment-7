@@ -121,7 +121,7 @@ export async function Navbar() {
                                             alt='Logo'
                                             className='h-7 w-7 dark:invert'
                                         />
-                                        <span>MyWebsite</span>
+                                        <span>Md Asraful</span>
                                     </Link>
                                 </SheetTitle>
                             </SheetHeader>

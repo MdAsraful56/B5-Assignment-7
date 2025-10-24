@@ -1,9 +1,14 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const BlogPostForm = () => {
+    const session = useSession();
+
+    const id = session.data?.user.id;
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -73,7 +78,7 @@ const BlogPostForm = () => {
             content: formData.content.trim(),
             thumbnail: formData.thumbnail || null,
             tags: tagsArray,
-            authorId: 34,
+            authorId: id,
         };
 
         const res = await fetch(

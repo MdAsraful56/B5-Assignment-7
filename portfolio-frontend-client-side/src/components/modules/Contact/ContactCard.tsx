@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader2, MessageSquare, Trash2 } from 'lucide-react';
+import { Loader2, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 interface Message {
@@ -45,23 +45,23 @@ const ContactCard = ({ data }: Props) => {
         }
     };
 
-    if (messages.length === 0) {
-        return (
-            <div className='min-h-screen p-6 bg-gray-50 dark:bg-gray-900'>
-                <div className='max-w-7xl mx-auto'>
-                    <h1 className='text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8'>
-                        Contact Messages
-                    </h1>
-                    <div className='flex flex-col items-center justify-center py-20'>
-                        <MessageSquare className='w-24 h-24 text-gray-300 dark:text-gray-600 mb-4' />
-                        <p className='text-xl text-gray-500 dark:text-gray-400'>
-                            No messages yet
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    // if (messages.length === 0) {
+    //     return (
+    //         <div className='min-h-screen p-6 bg-gray-50 dark:bg-gray-900'>
+    //             <div className='max-w-7xl mx-auto'>
+    //                 <h1 className='text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8'>
+    //                     Contact Messages
+    //                 </h1>
+    //                 <div className='flex flex-col items-center justify-center py-20'>
+    //                     <MessageSquare className='w-24 h-24 text-gray-300 dark:text-gray-600 mb-4' />
+    //                     <p className='text-xl text-gray-500 dark:text-gray-400'>
+    //                         No messages yet
+    //                     </p>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className='min-h-screen p-6 bg-gray-50 dark:bg-gray-900'>

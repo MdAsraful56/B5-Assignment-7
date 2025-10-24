@@ -10,7 +10,7 @@ const contactPage = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/contact/all`);
     const result = await res.json();
 
-    // console.log(result);
+    // console.log(result, 'massage page');
 
     return (
         <div className=''>

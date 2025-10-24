@@ -14,7 +14,7 @@ interface Author {
     picture?: string | null;
 }
 
-interface BlogPost {
+interface Item {
     id: number;
     title: string;
     content: string;
@@ -32,7 +32,7 @@ const AllBlogsPage = async () => {
 
     const result = await res.json();
     const blogs = result.data.data;
-    // console.log(blogs);
+
     return (
         <div className='py-30 px-4 max-w-7xl mx-auto'>
             <h2 className='text-center text-4xl mb-8'>All Blogs</h2>
@@ -40,8 +40,8 @@ const AllBlogsPage = async () => {
                 {blogs.length === 0 ? (
                     <p className='text-center col-span-3'>No blogs found.</p>
                 ) : (
-                    blogs.map((post: { id: number; post: BlogPost }) => (
-                        <BlogCard key={post.id} post={post.post} />
+                    blogs.map((item: Item) => (
+                        <BlogCard key={item.id} post={item} />
                     ))
                 )}
             </div>
